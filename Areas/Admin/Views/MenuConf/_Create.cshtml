@@ -1,0 +1,137 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using PhramacyApp.Areas.Admin.Models
+@model MenuConfViewModel
+<form id="create-form" method="post" asp-controller="MenuConf" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Menu_Id" onsubmit="return jQueryModalPost(this);">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Roles</label>
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <select name="Role_Id" class="form-control select2bs4" id="Role_Id" asp-for="Role_Id" asp-items="@Model.Roles">
+                            @*<option value="0">Select a Role</option>*@
+                        </select>
+                    </div>
+                    <span asp-validation-for="Role_Id" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Menu</label>
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <select name="Mh_Id" class="form-control select2bs4" id="Mh_Id" asp-for="Mh_Id" asp-items="@Model.Menus">
+                            @*<option value="0">Select a Menu</option>*@
+                        </select>
+                    </div>
+                    <span asp-validation-for="Mh_Id" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Sub Menu Name</label>
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <select name="Sm_Id" class="form-control select2bs4" id="Sm_Id" asp-for="Sm_Id" asp-items="@Model.SubMenus">
+                        </select>
+                    </div>
+                    <span asp-validation-for="Sm_Id" class="text-danger"></span>
+                </div>
+            </div>
+            @*<div class="form-group row">
+                    <label class="col-md-3 col-form-label">@localizer["Sub Menu Name"]</label>
+                    <div class="col-md-9">
+                        <input type="text" asp-for="Sm_Name" name="Sm_Name" class="form-control">
+                        <span asp-validation-for="Sm_Name" class="text-danger"></span>
+                    </div>
+                </div>*@
+            @*<div class="form-group row">
+                    <label class="col-md-3 col-form-label">@localizer["URL"]</label>
+                    <div class="col-md-9">
+                        <input type="text" asp-for="URL" name="URL" class="form-control">
+                        <span asp-validation-for="URL" class="text-danger"></span>
+                    </div>
+                </div>*@
+            @*<div class="form-group row">
+                    <label class="col-md-3 col-form-label">@localizer["Sequence"]</label>
+                    <div class="col-md-9">
+                        <input type="text" asp-for="Sm_Seq" name="Sm_Seq" class="form-control">
+                        <span asp-validation-for="Sm_Seq" class="text-danger"></span>
+                    </div>
+                </div>*@
+            @*<div class="form-group row">
+                    <label class="col-md-3 col-form-label">Sequence</label>
+                    <div class="col-md-9">
+                        <textarea rows="6" asp-for="Sm_Seq" name="Sm_Seq" class="form-control"></textarea>
+                        <span asp-validation-for="Sm_Seq" class="text-danger"></span>
+                    </div>
+                </div>*@
+            <div class="form-group row">
+                <div class="col-md-3">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancel</button>
+    </div>
+</form>
+@*<script src="~/lib/jquery/jquery.min.js"></script>*@
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+
+    $("#Role_Id").select2({
+        placeholder: "Select a Role",
+        theme: "bootstrap4",
+        escapeMarkup: function (m) {
+            return m;
+        }
+    });
+    $("#Mh_Id").select2({
+        placeholder: "Select a menu",
+        theme: "bootstrap4",
+        escapeMarkup: function (m) {
+            return m;
+        }
+    });
+    $("#Sm_Id").select2({
+        placeholder: "Select a Submenu",
+        theme: "bootstrap4",
+        escapeMarkup: function (m) {
+            return m;
+        }
+    });
+
+    $(document).ready(function () {
+        //var items = "<option value='0'>Select</option>";
+        //$('#Sm_Id').html(items)
+
+        $('#Role_Id').change(function () {
+            var url = '@Url.Content("~/Admin/")' + 'MenuConf/GetMenuByRole';
+            var ddlsource = '#Role_Id';
+            $.getJSON(url, { roleId: $(ddlsource).val() }, function (data) {
+                var items = '';
+                $('#Mh_Id').empty();
+                $.each(data, function (i, menu) {
+                    items += "<option value='" + menu.value + "'>" + menu.text + "</option>";
+                });
+                $('#Mh_Id').html(items);
+            });
+        });
+
+        $('#Mh_Id').change(function () {
+            var url = '@Url.Content("~/Admin/")' + 'MenuConf/GetSubMenu';
+            var ddlsource = '#Mh_Id';
+            $.getJSON(url, { mhId: $('#Mh_Id').val(), Role_Id: $('#Role_Id').val() }, function (data) {
+                var items = '';
+                $('#Sm_Id').empty();
+                $.each(data, function (i, submenu) {
+                    items += "<option value='" + submenu.value + "'>" + submenu.text + "</option>";
+                });
+                $('#Sm_Id').html(items);
+            });
+        });
+    });
+
+
+</script>

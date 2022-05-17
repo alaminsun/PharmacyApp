@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<button id="btnPdf">Generate Pdf</button>
+
+@*<script type="text/javascript">
+    $("#btnPdf").click(function () {
+        window.open('../Report/PrintInvoice?param=1', "_blank");
+    });
+</script>*@
+
+@section Scripts
+{
+    @*<script src="~/js/site.js"></script>*@
+    <script>
+        $("#btnPdf").click(function () {
+            window.open("~/Report/PrintInvoice?param=1", "_blank");
+        });
+    </script>
+}

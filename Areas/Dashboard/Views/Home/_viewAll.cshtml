@@ -1,0 +1,102 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using PhramacyApp.Areas.Dashboard.Models
+@model IEnumerable<DashboardViewModel>
+<div class="card card-default">
+    <div class="card-body">
+        <div class="row">
+            <div class="card card-default">
+                <div class="card-heading">
+                    <i class="fa fa-clock-o fa-fw"></i> Expiry Product List
+                </div>
+                <!-- /.panel-heading -->
+                <div class="card-body">
+                    <table id="myDataTable" class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Medicine ID</th>
+                                <th>Medicine Name</th>
+                                <th>Batch No</th>
+                                <th>Quantity</th>
+                                <th>Expiry Date</th>
+                                <th>Buying Price</th>
+                                <th>Selling Price </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<script src="~/js/toastr.min.js"></script>
+<link href="~/css/toastr.min.css" rel="stylesheet" />*@
+<script>
+        //var from = '@ViewBag.from'
+    $(document).ready(function () {
+        //$('#myDataTable').DataTable();
+        $.ajax({
+            url: '@Url.Action("GetDetails", "Home")',
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                $('#myDataTable').dataTable({
+                    data: data,
+                    columns: [
+                            //{
+                            //    "data": "CustomerImage", "width": "50px", "render": function (data) {
+                            //        return '<img class="rounded img-thumbnail" style="width:60px; height:58px;" src="/Images/Customers/' + data + '"/>';
+                            //    }
+                            //},
+                            { 'data': 'Medicine_Id', 'autowidth': true },
+                            { 'data': 'Medicine_Name', 'autowidth': true },
+                            { "data": 'Batch_No', 'autowidth': true },
+                            { "data": 'Quantity', 'autowidth': true },
+                            { "data": 'Buying_Price', 'autowidth': true },
+                            { "data": 'Selling_Price', 'autowidth': true },
+                            { "data": 'Expairy_Date', 'autowidth': true }
+                        ]
+                })
+            }
+
+        })
+
+         //           MedicineList();
+
+         //       function MedicineList() {
+         //           //GET DATA FROM DATABASE TO FILL DATATABLE
+         //           var oTable = $("#myDataTable").DataTable({
+
+         //               "ajax": {
+         //                   "url": "/Dashboard/Home/GetDetails",
+         //                   "type": "GET",
+         //                   "dataType": "json",
+         //                   "data":"data"
+         //               },
+
+         //               "columns": [
+         //                   //{
+         //                   //    "data": "CustomerImage", "width": "50px", "render": function (data) {
+         //                   //        return '<img class="rounded img-thumbnail" style="width:60px; height:58px;" src="/Images/Customers/' + data + '"/>';
+         //                   //    }
+         //                   //},
+         //                   { "data": "medicine_Id", "autowidth": true },
+         //                   { "data": "medicine_Name", "autowidth": true },
+         //                   { "data": "batch_No", "autowidth": true },
+         //                   { "data": "quantity", "autowidth": true },
+         //                   { "data": "buying_Price", "autowidth": true },
+         //                   { "data": "selling_Price", "autowidth": true },
+         //                   { "data": "expairy_Date", "autowidth": true }
+         //               ]
+         //           });
+         //       }
+
+
+         });
+
+
+</script>
+

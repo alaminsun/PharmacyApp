@@ -1,0 +1,151 @@
+﻿@using PhramacyApp.Areas.Transaction.Models
+@model IEnumerable<PurchaseModel>
+        <table class="table table-striped table-bordered" id="medicineTable">
+            <thead>
+                <tr>
+                    @*<th>
+                            @localizer["Id"]
+                        </th>*@
+                    @*<th>
+                            @localizer["Category"]
+                        </th>
+                        <th>
+                            @localizer["Shelf"]
+                        </th>*@
+                    <th>
+                        @localizer["Medicine"]
+                    </th>
+                    <th>
+                        @localizer["Batch No"]
+                    </th>
+                    <th>
+                        @localizer["Expiry Date"]
+                    </th>
+                    <th>
+                        @localizer["Buying Price"]
+                    </th>
+                    @*<th>
+                            @localizer["Selling Price"]
+                        </th>*@
+
+                    @*<th style="width:10%">
+                            @localizer["Actions"]
+                        </th>*@
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var medicine in Model)
+                {
+                    <tr>
+                        @*<td>
+                                @medicine.Id
+                            </td>*@
+                        @*<td>
+                                @medicine.CategoryName
+                            </td>
+                            <td>
+                                @medicine.ShelfName
+                            </td>*@
+                        <td>
+                            @medicine.Medicine_Name
+                        </td>
+                        <td>
+                            @medicine.Batch_No
+                        </td>
+                        <td>
+                            @medicine.Expiry_Date
+                        </td>
+                        <td>
+                            @medicine.Buying_Price
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    <script>
+        $(document).ready(function () {
+            $('#medicineTable').DataTable();
+
+            //$('#medicineTable').DataTable({
+            //    "ajax": {
+            //        "url": "Purchase/MedicineList",
+            //        "dataSrc": "data"
+            //    }
+            //});
+            var table = $('#medicineTable').DataTable();
+            //var table2 = $('#purchaseTable').DataTable();
+            //$('#purchaseTable tbody').on('click', 'tr', function () {
+            //    if ($(this).hasClass('selected')) {
+            //        $(this).removeClass('selected');
+            //    }
+            //    else {
+            //        table2.$('tr.selected').removeClass('selected');
+            //        $(this).addClass('selected');
+            //    }
+            //});
+            //var data = table.rows().data();
+            //console.log(data);
+            //$.each(data, function (key, value) {
+            //    alert(key + ": " + value);
+            //});
+
+
+        
+ 
+            $('#medicineTable tbody').on('click', 'tr', function () {
+
+                //var medicinename = $(this).closest("tr").find("td").eq(0).html();
+                //var batchno = $(this).closest("tr").find("td").eq(1).html();
+                //var expirydate = $(this).closest("tr").find("td").eq(2).html();
+                //var buyingprice = $(this).closest("tr").find("td").eq(3).html();
+                //////alert($('#medicinename').val(medicinename))
+                ////var t1data = table1.row(this).data();
+                ////alert[t1data[0]]
+                //$('#MedicineName').val(medicinename);
+                //$('#BatchNo').val(batchno);
+                //$('#ExpiryDate').val(expirydate);
+                //$('#BuyingPrice').val(buyingprice);
+                //$('#modal').modal('toggle');
+
+                //if ($(this).hasClass('selected')) {
+                //    $(this).removeClass('selected');
+                //} 
+                //else {
+                //    table.$('tr.selected').removeClass('selected');
+                //    $(this).addClass('selected');
+                //}
+                //var dataTable = $('#medicineTable').DataTable()
+                //var dataTableRow = dataTable.row('#' + id).data()
+                var data = table.rows().data();
+                 data = table.row(this).data();
+                //////var t2data = table2.row(this).data();
+                $('#MedicineName').val(data[0]);
+                $('#BatchNo').val(data[1]);
+                $('#ExpiryDate').val(data[2]);
+                $('#BuyingPrice').val(data[3]);
+
+   
+                //if ($(this).hasClass('selected')) {
+                //    $(this).removeClass('selected');
+                //}
+                //else {
+                //    table.$('tr.selected').removeClass('selected');
+                //    $(this).addClass('selected');
+                //}
+                //var gridData = $("#DoctorRelationGrid").data("kendoGrid");
+                //var selectedItem = (gridData.dataItem(gridData.select())); //Selected Row
+
+                //var gridCiItem = $("#DoctorInfoGrid").data("kendoGrid");
+                //var selectedCiigItem = (gridCiItem.dataItem(gridCiItem.select()));
+                //selectedCiigItem.set("RelativeId", selectedItem.DoctorId);
+                //selectedCiigItem.set("DoctorName", selectedItem.DoctorName);
+                //var row = $(this).closest('tr').html();
+                //$('#purchaseTable tbody').append('<tr>' + row + '</tr>');
+               
+                //console.log(table.row(this).data());
+                $('#myModal').modal('hide');
+            });
+        });
+    </script>
+

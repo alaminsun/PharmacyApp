@@ -1,0 +1,60 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using PhramacyApp.Areas.Admin.Models
+@model MenuViewModel
+<form id="create-form" method="post" asp-controller="Menu" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Mh_Id" onsubmit="return jQueryModalPost(this);">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">@localizer["Area"]</label>
+                <div class="col-md-9">
+                    <input type="text" asp-for="Area" name="Area" class="form-control">
+                    <span asp-validation-for="Area" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">@localizer["Name"]</label>
+                <div class="col-md-9">
+                    <input type="text" asp-for="Mh_Name" name="Mh_Name" class="form-control">
+                    <span asp-validation-for="Mh_Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">@localizer["Seq"]</label>
+                <div class="col-md-9">
+                    <input type="text" asp-for="Mh_Seq" name="Mh_Seq" class="form-control">
+                    <span asp-validation-for="Mh_Seq" class="text-danger"></span>
+                </div>
+            </div>
+            @*<div class="form-group row">
+                <label class="col-md-3 col-form-label">Roles</label>
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <select name="Role_Id" class="form-control select2bs4" id="Role_Id" asp-for="Role_Id" asp-items="@Model.Roles">
+                            <option value="">Select a Role</option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="Role_Id" class="text-danger"></span>
+                </div>
+            </div>*@
+            <div class="form-group row">
+                <div class="col-md-3">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancel</button>
+    </div>
+</form>
+<script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+    $("#Role_Id").select2({
+        placeholder: "Select a Role",
+        theme: "bootstrap4",
+        escapeMarkup: function (m) {
+            return m;
+        }
+    });
+</script>

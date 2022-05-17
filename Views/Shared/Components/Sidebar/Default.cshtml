@@ -1,0 +1,149 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using PhramacyApp.Areas.Admin.Models
+@inject IHtmlLocalizer<SharedResource> localizer
+@model IEnumerable<SubMenuViewModel>
+
+
+    <aside id="sideBar" class="main-sidebar sidebar-dark-primary">
+        <a href="/" class="brand-link">
+            <img src="~/images/logo-transparent.png" id="brand-logo" alt="logo" class="brand-image img-circle"
+                 style="opacity: .8">
+            <span class="brand-text font-weight-light" style="font-size:0.8em!important">ASP.NET Core Hero</span>
+        </a>
+        <div class="sidebar">
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                @localizer["Dashboard"]
+                                <span class="right badge badge-danger">@localizer["New"]</span>
+                            </p>
+                        </a>
+                    </li>
+                    @if (User.IsInRole("SuperAdmin"))
+                    {
+                        <li class="nav-header">@localizer["Admin"]</li>
+                        <li is-active-route asp-area="Admin" class="nav-item has-treeview">
+                            <a is-active-route asp-area="Admin" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    @localizer["Admin Settings"]
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="Admin" asp-controller="Menu" class="nav-link">
+                                        <i class="far fa-user-circle nav-icon"></i>
+                                        <p>@localizer["Menus"]</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="Admin" asp-controller="SubMenu" class="nav-link">
+                                        <i class="far fa-user-circle nav-icon"></i>
+                                        <p>@localizer["SubMenus"]</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="Admin" asp-controller="MenuConf" class="nav-link">
+                                        <i class="far fa-user-circle nav-icon"></i>
+                                        <p>@localizer["Menu Config"]</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="Admin" asp-controller="User" class="nav-link">
+                                        <i class="far fa-user-circle nav-icon"></i>
+                                        <p>@localizer["Users"]</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a is-active-route asp-area="Admin" asp-controller="Role" class="nav-link">
+                                        <i class="far fa-user-circle nav-icon"></i>
+                                        <p>@localizer["Roles"]</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    <li class="nav-header">@localizer["Master"]</li>
+                    @foreach (var item in Model)
+                    {
+
+                        var children = item.Children;
+                        if (children != null)
+                        {
+                <li is-active-route asp-area="@item.Area" class="nav-item has-treeview">
+                    <a is-active-route asp-area="@item.Area" class="nav-link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            @item.Mh_Name
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    @foreach (var itm in children)
+                    {
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/@itm.URL" class="nav-link">
+                                    <i class="far fa-user-circle nav-icon"></i>
+                                    <p>@itm.Sm_Name</p>
+                                </a>
+                            </li>
+                        </ul>
+                    }
+                    </li>
+                        }
+                    }
+                            @*<li is-active-route asp-area="Catalog" class="nav-item has-treeview">
+                    <a is-active-route asp-area="" class="nav-link">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>
+                            @localizer["Catalog"]
+
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                </li>*@
+                            @*@foreach (var item in Model)
+                {
+
+                    var children = item.Children;
+                    if (children != null)
+                    {
+                        <li class="nav-item has-treeview">
+
+                            <a class="nav-link">
+
+                                <i class="nav-icon fas fa-archive"></i>
+                                <p>
+                                    @item.Mh_Name
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+
+                            </a>
+
+                            <ul class="nav nav-treeview">
+
+                                @foreach (var itm in children)
+                                {
+                                    <li is-active-route class="nav-item">
+                                        <a is-active-route href="/@itm.URL" class="nav-link">
+                                            <i class="far fa-user-circle nav-icon"></i>
+                                            <p> @itm.Sm_Name</p>
+                                        </a>
+                                    </li>
+                                }
+
+                            </ul>
+
+                        </li>
+                    }
+                }*@
+                        </ul>
+
+
+            </nav>
+        </div>
+    </aside>

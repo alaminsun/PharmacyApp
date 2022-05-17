@@ -1,0 +1,234 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using PhramacyApp.Areas.Master.Models
+@model MedicineModel
+<form id="create-form" method="post" asp-controller="medicine" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">@localizer["Medicine Name"]</label>
+                        <div class="col-sm-9">
+                            <input type="text" asp-for="Medicine_Name" name="Medicine_Name" class="form-control">
+                            <span asp-validation-for="Medicine_Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">@localizer["Medicine ID"]</label>
+                        <div class="col-sm-9">
+                            <input type="text" asp-for="Medicine_Id" name="Medicine_Id" class="form-control" value="@Model.Medicine_Id" readonly>
+                            <span asp-validation-for="Medicine_Id" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">@localizer["Generic Name"]</label>
+                        <div class="col-sm-9">
+                            <input type="text" asp-for="Generic_Name" name="Generic_Name" class="form-control">
+                            <span asp-validation-for="Generic_Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">@localizer["Category"]</label>
+                        <div class="col-sm-9">
+                            <select name="Category_Id" class="form-control select2bs4" id="Category_Id" asp-for="Category_Id" asp-items="@Model.Categories">
+                                <option value="">Select a Category</option>
+                            </select>
+                            <span asp-validation-for="Category_Id" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            @*<div class="form-group row">
+            <label class="col-md-3 col-form-label">@localizer["Shelf"]</label>
+            <div class="col-md-9">
+                <select name="ShelfId" class="form-control select2bs4" id="ShelfId" asp-for="ShelfId" asp-items="@Model.Shelfs">
+                    <option value="">Select a Shelf</option>
+                </select>
+                <span asp-validation-for="ShelfId" class="text-danger"></span>
+            </div>
+        </div>*@
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">@localizer["Shelf"]</label>
+                    <div class="col-sm-9">
+                        <select name="Shelf_Id" class="form-control select2bs4" id="Shelf_Id" asp-for="Shelf_Id" asp-items="@Model.Shelfs">
+                            <option value="">Select a Shelf</option>
+                        </select>
+                        <span asp-validation-for="Shelf_Id" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">@localizer["Strength"]</label>
+                    <div class="col-sm-9">
+                        <input type="text" asp-for="Strength_Name" name="Strength_Name" class="form-control">
+                        <span asp-validation-for="Strength_Name" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">@localizer["Selling Price"]</label>
+                        <div class="col-sm-9">
+                            <input type="text" asp-for="Selling_Price" name="Selling_Price" class="form-control">
+                            <span asp-validation-for="Selling_Price" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">@localizer["Buying Price"]</label>
+                        <div class="col-sm-9">
+                            <input type="text" asp-for="Buying_Price" name="Buying_Price" class="form-control">
+                            <span asp-validation-for="Buying_Price" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">@localizer["Supplier"]</label>
+                        <div class="col-sm-9">
+                            <input type="hidden" id="Supplier_Nic_Name" asp-for="Supplier_Nic_Name" name="Supplier_Nic_Name" class="form-control">
+                            <select name="Supplier_Id" class="form-control select2bs4" id="Supplier_Id" asp-for="Supplier_Id" asp-items="@Model.SupplierList">
+                                <option value="">Select a Supplier</option>
+                            </select>
+                            <span asp-validation-for="Supplier_Id" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+@*                <div class="col-sm-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">@localizer["Supplier_Nic_Name"]</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="Supplier_Nic_Name" asp-for="Supplier_Nic_Name" name="Supplier_Nic_Name" class="form-control">
+        
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+            @*<div data-date-format="dd-mm-yyyy" data-date="12-02-2012" class="input-append date myDatepicker">
+            <input type="text" value="" size="16" class="span2">
+            <span class="add-on"><i class="icon-calendar"></i></span>
+        </div>*@
+            <div class="form-group row">
+                <div class="col-md-3">
+                </div>
+            </div>
+        </div>
+        </div>
+
+    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancel</button>
+    </div>
+</form>
+<script type="text/javascript" language=javascript>
+        $.validator.unobtrusive.parse(document);
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: 'TRUE',
+                autoclose: true,
+            });
+
+            $("#Supplier_Id").select2({
+                placeholder: "Select a Supplier",
+                theme: "bootstrap4",
+                escapeMarkup: function (m) {
+                    return m;
+                }
+            });
+            $("#Shelf_Id").select2({
+                placeholder: "Select a Self",
+                theme: "bootstrap4",
+                escapeMarkup: function (m) {
+                    return m;
+                }
+            });
+            $("#Category_Id").select2({
+                placeholder: "Select a Category",
+                theme: "bootstrap4",
+                escapeMarkup: function (m) {
+                    return m;
+                }
+            });
+
+
+            $("#Supplier_Id").on("change", function () {
+                var id = $("#Supplier_Id").val();
+                //$("#myTextbox").val(GetValue);
+                //var id = $('#Supplier_Id').find(":selected").attr('value');
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("SupplierNicNameList", "Medicine")',
+                    data: "suplier_Id=" + id,
+                    success: function (data) {
+                        console.log(data.supplier_Nic_Name);
+                        $('#Supplier_Nic_Name').val(data.supplier_Nic_Name);
+                        //if (data.length > 0) {
+                        //    console.log(data);
+                        //    $('#Supplier_Nic_Name').val(data[0].supplier_Nic_Name);
+                        //    //$('#task2').val(data[0].Address);
+                        //} else {
+                        //    $('#task').val('');
+                        //    $('#task2').val('');
+                        //}
+                    }
+                });
+            });
+
+            @*function get_sbu() {
+                var id = $('#Supplier_Id').find(":selected").attr('value');
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("SupplierNicNameList", "Medicine")',
+                    data: "suplier_Id=" + id,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            console.log(data);
+                            $('#task').val(data[0].Age);
+                            $('#task2').val(data[0].Address);
+                        } else {
+                            $('#task').val('');
+                            $('#task2').val('');
+                        }
+                    }
+                });
+            }*@
+            loadSuppliers()
+
+    function loadSuppliers() {
+           $.ajax({
+               type: "GET",
+               url: '@Url.Action("SupplierList", "Medicine")',
+               data: "{}",
+               success: function (data) {
+                   console.log(data);
+                   var s = '<option value="">Please Select a Supplier</option>';
+                   for (var i = 0; i < data.length; i++) {
+                       s += '<option value="' + data[i].supplier_Id + '">' + data[i].supplier_Name + '</option>';
+                   }
+                   $("#SupplierId").html(s);
+               }
+           });
+        }
+
+            //$('.datepicker').datepicker({ dateFormat: 'dd-mm-yy' });
+   })
+
+</script>

@@ -1,0 +1,630 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using PhramacyApp.Areas.Transaction.Models
+@model PurchaseMasterModel
+<div class="card">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-header bg-secondary text-white text-center">
+                <h5>Add Purchase</h5>
+            </div>
+            <div class="card-body">
+                <form id="create-form">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">@localizer["Supplier"]</label>
+                                <div class="col-sm-9">
+                                    <input type="hidden" name="MasterId" class="form-control">
+                                    <select id="SupplierId" name="SupplierId" asp-for="SupplierId" class="form-control select2bs4">
+                                        @*<option value="">Select a Supplier</option>*@
+                                    </select>
+                                    <span asp-validation-for="SupplierId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">@localizer["Purchase Date"]</label>
+                                <div class="col-sm-9">
+                                    <input id="Purchase_Date" type="text" readonly name="Purchase_Date" asp-for="Purchase_Date" class="form-control datepicker">
+                                    <span asp-validation-for="Purchase_Date" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">@localizer["Invoice No"]</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="Invoice_No" name="Invoice_No" asp-for="Invoice_No" class="form-control">
+                                    <span asp-validation-for="Invoice_No" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">@localizer["Details"]</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="Details" name="Details" asp-for="Details" class="form-control">
+                                    <span asp-validation-for="Details" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">@localizer["Payment Type"]</label>
+                                <div class="col-sm-9">
+                                    <select id="PaymentType" name="PaymentType" asp-for="PaymentType" class="form-control select2bs4">
+                                        <option value="Cash">Cash Payment</option>
+                                        <option value="Bank">Bank Payment</option>
+                                        <option value="Due">Due Payment</option>
+                                    </select>
+                                    <span asp-validation-for="PaymentType" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="form-group row">
+            <label class="col-md-3 col-form-label">@localizer["Phone"]</label>
+            <div class="col-md-9">
+                <input type="text" asp-for="Phone" name="Phone" class="form-control">
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+        </div>*@
+
+                    @*<div class="form-group row">
+            <div class="col-md-3">
+            </div>
+        </div>*@
+                    @*<div id="viewAll" class="card-body table-responsive">
+        </div>*@
+                    @*</div>
+        </div>*@
+
+
+
+
+                    <table id="purchaseTable" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                @*<th>
+                        @localizer["Select List"]
+                    </th>*@
+                                @*<th>
+                        @localizer["Medicine"]
+                    </th>*@
+                                <th class="text-center" width="20%">@localizer["Item Information"]<i class="text-danger">*</i></th>
+                                <th>
+                                    @localizer["Batch No"]
+                                </th>
+                                <th>
+                                    @localizer["Expiry Date"]
+                                </th>
+                                <th>
+                                    @localizer["Stock/Qnt"]
+                                </th>
+                                <th>
+                                    @localizer["Quantity"]
+                                </th>
+                                <th>
+                                    @localizer["Buying Price"]
+                                </th>
+                                <th>
+                                    @localizer["Total"]
+                                </th>
+                                @*<td>&nbsp;</td>*@
+
+                                <th style="width:10%">
+                                    @localizer["Action"]
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="addPurchaseItem">
+                            <tr>
+                                @*<td>
+                        <input type="text" id="MedicineName" class="form-control ui-autocomplete-input" name="MedicineName" onkeypress="product_pur_or_list(1);" placeholder="Medicine Name" size="10">
+                    </td>*@
+
+                                <td class="span3 manufacturer">
+                                    <input type="hidden" class="autocomplete_hidden_value" name="DetailId[]" id="DetailId" />
+                                    <input type="text" name="MedicineName" required class="form-control MedicineName productSelection" onkeypress="product_pur_or_list(1);" placeholder="Medicine Name" id="MedicineName_1" tabindex="6">
+
+                                    <input type="hidden" class="autocomplete_hidden_value MedicineId_1" name="MedicineId[]" id="MedicineId" />
+
+                                    <input type="hidden" class="sl" value="1">
+                                </td>
+                                <td>
+                                    <input type="text" name="BatchNo[]" id="BatchNo_1" class="form-control text-right" tabindex="7" placeholder="Batch ID" required="" aria-required="true">
+                                </td>
+                                <td>
+                                    <input type="text" name="ExpiryDate[]" id="ExpiryDate_1" class="form-control datepicker" tabindex="8" placeholder="Expiry  date" onchange="checkExpiredate(1)" required="" aria-required="true">
+                                </td>
+
+                                @*<td>
+                        <input type="text" id="available_quantity_1" class="form-control text-right stock_ctn_1" placeholder="0.00" readonly>
+                    </td>*@
+
+                                <td class="wt">
+                                    <input type="text" id="available_quantity_1" class="form-control text-right stock_ctn_1" placeholder="0.00" min="0" readonly />
+                                </td>
+
+                                <td class="text-right">
+                                    <input type="text" name="Quantity[]" id="Quantity_1" class="form-control text-right store_cal_1" onkeyup="calculate_store(1),checkqty(1);" onchange="calculate_store(1);" placeholder="0.00" value="" min="0" tabindex="9" required="required" aria-required="true">
+                                </td>
+                                <td class="test">
+                                    <input type="text" name="BuyingPrice[]" onkeyup="calculate_store(1),checkqty(1);" onchange="calculate_store(1);" id="BuyingPrice_1" class="form-control BuyingPrice_1 text-right" placeholder="0.00" value="" min="0" tabindex="10" required="required" aria-required="true">
+                                </td>
+
+
+                                <td class="text-right">
+                                    <input class="form-control TotalPrice text-right" type="text" name="TotalPrice[]" id="TotalPrice_1" value="0.00" readonly="readonly">
+                                </td>
+                                <td>
+
+                                    <button type="button" class="btn btn-danger" tabindex="11" onclick="deleteRow(this)"><i class="fa fa-close"></i></button>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="text-right" colspan="2"><b>Discount:</b></td>
+                                <td colspan="2">
+                                    <input type="text" id="discount_price" class="text-right form-control" name="discount_price" onkeyup="calculate_gandtotal();" placeholder="0.00">
+                                </td>
+                                <td class="text-right" colspan="2"><b>Grand Total:</b></td>
+                                <td class="text-right">
+                                    <input type="text" id="grandTotal" class="text-right form-control" name="grand_total_price" value="0.00" readonly="readonly">
+                                </td>
+                                <td>
+                                    <button type="button" id="add_invoice_item" class="btn btn-info" name="add-invoice-item" onclick="addPurchaseOrderField1('addPurchaseItem')" tabindex="12"><i class="fa fa-plus"></i></button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <!--Bootstrap Confirm modal-->
+                    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>You are about to delete <b><i class="title"></i></b> record, this procedure is irreversible.</p>
+                                    <p>Do you want to proceed?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-danger btn-ok">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <input type="submit" id="add-purchase" class="btn btn-primary btn-large" name="add-purchase" value="Submit">
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="purchase_csv_modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">Upload Csv Purchase</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="panel panel-bd">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>CSV Purchase<a href="http://localhost:8080/pharmacare-9.3/assets/data/csv/purchase_csv_sample.csv" class="btn btn-primary pull-right"><i class="fa fa-download"></i> Download Sample File</a></h4>
+                            </div>
+                        </div>
+
+                        @*<div class="panel-body">
+                                <div class="col-sm-12"></div>
+                                <form action="http://localhost:8080/pharmacare-9.3/Cpurchase/uploadCsv_Purchase" class="form-vertical" id="validate" name="insert_csv_purchase" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                                    <input type="hidden" name="csrf_test_name" value="e89f99b55d97e141d4632f774dccca33">
+                                    <div class="col-sm-12">
+                                        <div class="form-group row">
+                                            <label for="upload_csv_file" class="col-sm-4 col-form-label">Upload CSV File <i class="text-danger">*</i></label>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" name="upload_csv_file" type="file" id="upload_csv_file" placeholder="Upload CSV File" required="">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <div class="form-group row">
+                                            <div class="col-sm-12 text-right">
+                                                <input type="submit" id="add-product" class="btn btn-primary btn-large" name="add-product" value="Submit">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>*@
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@*<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">*@
+@*<link href="~/lib/jquery-ui/css/jquery-ui.css" rel="stylesheet" />*@
+@section Scripts{
+
+
+    <script>
+        $.validator.unobtrusive.parse(document);
+        $(document).ready(function () {
+            //$('.datepicker').datepicker({ dateFormat: 'dd-mm-yy' });
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: 'TRUE',
+                autoclose: true,
+            });
+            loadSuppliers();
+
+            $("#PaymentType").select2({
+                placeholder: "Select a Payment Type",
+                theme: "bootstrap4",
+                escapeMarkup: function (m) {
+                    return m;
+                }
+            });
+
+            var select = $("#SupplierId").select2({
+                placeholder: "Select a Supplier",
+                theme: "bootstrap4",
+                allowClear: true,
+                escapeMarkup: function (m) {
+                    return m;
+                }
+
+            });
+
+            select.on('change', function () {
+                $(this).trigger('blur');
+            });
+
+            $('#create-form').validate({
+                ignore: 'input[type=hidden], .select2-input, .select2-focusser'
+            });
+
+            select.rules('add', 'required');
+
+            
+            $("#create-form").submit(function (event) {
+                var detailArr = [];
+                detailArr.length = 0;
+                var b = 1;
+                $.each($("#purchaseTable tbody tr"), function () {
+                    //var row = $("#purchaseTable tbody tr").length;
+
+                        detailArr.push({
+                            //productName: $(this).find('td:eq(0)').html(),
+                            //quantity: $(this).find('td:eq(1)').html(),
+                            //price: $(this).find('td:eq(2)').html(),
+                            //amount: $(this).find('td:eq(3)').html()
+                            MedicineId: $('.MedicineId_' + b).val(), 
+                            MedicineName: $('#MedicineName_' + b).val(),
+                            BatchNo: parseInt($('#BatchNo_' + b).val()),
+                            ExpiryDate: $('#ExpiryDate_' + b).val(),
+                            //Stock_Qty: $('#ExpiryDate_' + b).val(),
+                            BuyingPrice: parseFloat($('#BuyingPrice_' + b).val()),
+                            Quantity: parseInt($('#Quantity_' + b).val()),
+                            TotalPrice: parseInt($('#TotalPrice_' + b).val())
+                        });
+                    console.log(detailArr);
+                    b = b + 1;
+                    });
+
+                    var formData = {
+                        //name: $("#name").val(),
+                        //address: $("#address").val(),
+                        //order: orderArr
+                        MasterId : $("MasterId").val(),
+                        SupplierId : $("#SupplierId").val(),
+                        PurchaseDate : $("#PurchaseDate").val(),
+                        InvoiceNo : $("#InvoiceNo").val(),
+                        Details : $("#Details").val(),
+                        PaymentType: $("#PaymentType").val(),
+                        DiscountPrice: $("#discount_price").val(),
+                        GrandTotal: $("#grandTotal").val(),
+                        DetailList: detailArr
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                         url: '@Url.Action("OnPostCreateOrEdit", "Purchase")',
+                        data: formData,
+                        dataType: "json",
+                        encode: true,
+                    }).done(function (data) {
+                        console.log(data);
+                    });
+
+                    event.preventDefault();
+                });
+
+
+       function loadSuppliers() {
+           $.ajax({
+               type: "GET",
+               url: '@Url.Action("SupplierList", "Purchase")',
+               data: "{}",
+               success: function (data) {
+                   //console.log(data);
+                   var s = '<option value="">Please Select a Supplier</option>';
+                   for (var i = 0; i < data.length; i++) {
+                       s += '<option value="' + data[i].supplierId + '">' + data[i].supplierName + '</option>';
+                   }
+                   $("#SupplierId").html(s);
+               }
+           });
+        }
+
+    });
+        
+
+        function myFunction() {
+            var quantity = $('#Quantity').val(); // get number as float
+            // alternately parseInt(string, 10), in case you work with integers
+            var buyingPrice = $('#BuyingPrice').val();
+            if (!isNaN(quantity)) { // the input is a number
+                $('#Total').val(quantity * buyingPrice); // update second field
+            } else { // the input wasn't a number
+                $('#Total').val('not a number?'); // show an error mesage
+            }
+        }
+
+        function calculate_gandtotal() {
+            var discount = $('#discount_price').val(); // get number as float
+            // alternately parseInt(string, 10), in case you work with integers
+            var grandTotal = $('#grandTotal').val();
+            if (!isNaN(discount)) { // the input is a number
+                $('#grandTotal').val(grandTotal - discount); // update second field
+            } else { // the input wasn't a number
+                $('#grandTotal').val('not a number?'); // show an error mesage
+            }
+            calculateSum()
+        }
+
+
+    function product_pur_or_list(sl) {
+
+        var manufacturer_id = $('#SupplierId').val();
+        var csrf_test_name = $('[name="csrf_test_name"]').val();
+        //var MedicineName = $('#MedicineName_' + sl).val();
+        //var base_url = $('#base_url').val();
+        if (manufacturer_id == 0) {
+            alert('Please Select manufacturer !');
+            return false;
+        }
+
+        // Auto complete
+        var options = {
+            minLength: 0,
+            source: function (request, response) {
+                var MedicineName = $('#MedicineName_' + sl).val();
+                $.ajax({
+                    //url: base_url + "Cpurchase/product_search_by_manufacturer",
+                    url: '@Url.Action("Medicine", "Purchase")',
+                    method: 'post',
+                    dataType: "json",
+                    data: {
+                        term: request.term,
+                        manufacturer_id: $('#SupplierId').val(),
+                        medicine: MedicineName, csrf_test_name: csrf_test_name
+                    },
+                    success: function (data) {
+                        //console.log(data);
+                        //response(data);
+                        response($.map(data, function (item) {
+                            return { label: item.medicineName, value: item.medicineId };
+                        }))
+
+                    }
+                });
+            },
+            focus: function (event, ui) {
+                $(this).val(ui.item.label);
+                return false;
+            },
+            select: function (event, ui) {
+                $(this).parent().parent().find(".autocomplete_hidden_value").val(ui.item.value);
+                var sl = $(this).parent().parent().find(".sl").val();
+
+                var MedicineId = ui.item.value;
+
+                var manufacturer_id = $('#SupplierId').val();
+
+
+                //var base_url = $('.baseUrl').val();
+
+
+                var available_quantity = 'available_quantity_' + sl;
+                //var BuyingPrice = 'BuyingPrice_' + sl;
+                var BatchNo = 'BatchNo_' + sl;
+                var ExpiryDate = 'ExpiryDate_' + sl;
+                var BuyingPrice = 'BuyingPrice_' + sl;
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("MedicineInfo", "Purchase")',
+                    //data: { product_id: product_id, manufacturer_id: manufacturer_id, csrf_test_name: csrf_test_name },
+                    data: { medicineId: MedicineId, manufacturer_id: manufacturer_id, csrf_test_name: csrf_test_name },
+                    cache: false,
+                    success: function (data) {
+                        console.log(data);
+                        //var obj = JSON.parse(data);
+                        $('#' + BatchNo).val(data.batchNo);
+                        $('#' + available_quantity).val(data.stock_Qty);
+                        $('#' + ExpiryDate).val(data.expiryDate);
+                        $('#' + BuyingPrice).val(data.buyingPrice);
+
+                    }
+                });
+
+                $(this).unbind("change");
+                return false;
+            }
+        }
+
+        $('body').on('keypress.autocomplete', '.MedicineName', function () {
+            $(this).autocomplete(options);
+        });
+
+    }
+
+
+    function addPurchaseOrderField1(divName) {
+
+        var row = $("#purchaseTable tbody tr").length;
+        var count = row + 1;
+        var newdiv = document.createElement('tr');
+        var tabin = "MedicineName_" + count,
+            tabindex = count * 7,
+            newdiv = document.createElement("tr"),
+            tab1 = tabindex + 1,
+
+            tab2 = tabindex + 2,
+            tab3 = tabindex + 3,
+            tab4 = tabindex + 4,
+            tab5 = tabindex + 5,
+            tab6 = tabindex + 6,
+            tab7 = tabindex + 7,
+            tab8 = tab7 + 1;
+
+        newdiv.innerHTML = '<td class="span3 manufacturer"><input type="text" name="MedicineName"  class="form-control MedicineName productSelection" onkeypress="product_pur_or_list(' + count + ')" placeholder="Medicine Name" id="MedicineName_' + count + '" tabindex="' + tab1 + '" required><input type="hidden" class="autocomplete_hidden_value MedicineId_' + count + '" name="MedicineId[]" id="MedicineId"/><input type="hidden" class="sl" value="' + count + '"></td><td><input type="text" required="required" name="BatchNo[]" id="BatchNo_' + count + '" tabindex="' + tab2 + '" class="form-control text-right"  tabindex="11" placeholder="Batch Id" /></td><td><input type="text" name="ExpiryDate[]" onchange="checkExpiredate(' + count + ')" id="ExpiryDate_' + count + '" required="required" class="form-control datepicker" tabindex="' + tab3 + '"  placeholder="Expire Date"/></td><td class="wt"><input type="text" id="available_quantity_' + count + '" class="form-control text-right stock_ctn_' + count + '" placeholder="0.00" readonly/></td><td class="text-right"><input type="text" name="Quantity[]" tabindex="' + tab4 + '" required  id="Quantity_' + count + '" class="form-control text-right store_cal_' + count + '" onkeyup="calculate_store(' + count + '),checkqty(' + count + ');" onchange="calculate_store(' + count + ');" placeholder="0.00" value="" min="0"/> </td><td class="test"><input type="text" name="BuyingPrice[]"  required onkeyup="calculate_store(' + count + '),checkqty(' + count + ');" onchange="calculate_store(' + count + ');" id="BuyingPrice_' + count + '" class="form-control BuyingPrice_' + count + ' text-right" placeholder="0.00" value="" min="0" tabindex="' + tab5 + '"/></td><td class="text-right"><input class="form-control TotalPrice text-right TotalPrice_' + count + '" type="text" name="TotalPrice[]" id="TotalPrice_' + count + '" value="0.00" readonly="readonly" /> </td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button type="button" class="btn btn-danger" tabindex="' + tab6 + '" onclick="deleteRow(this)"><i class="fa fa-close"></i></button></td>';
+        document.getElementById(divName).appendChild(newdiv);
+        document.getElementById(tabin).focus();
+        document.getElementById("add_invoice_item").setAttribute("tabindex", tab7);
+        document.getElementById("add_purchase").setAttribute("tabindex", tab8);
+
+
+        count++;
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: 'TRUE',
+            autoclose: true,
+        });
+
+        //$("select.form-control:not(.dont-select-me)").select2({
+        //    placeholder: "Select option",
+        //    allowClear: true
+        //});
+
+    }
+
+    function calculate_store(sl) {
+
+        var gr_tot = 0;
+        var item_ctn_qty = $("#Quantity_" + sl).val();
+        var vendor_rate = $("#BuyingPrice_" + sl).val();
+
+        var total_price = item_ctn_qty * vendor_rate;
+        $("#TotalPrice_" + sl).val(total_price.toFixed(2));
+
+
+        //Total Price
+        $(".TotalPrice").each(function () {
+            isNaN(this.value) || 0 == this.value.length || (gr_tot += parseFloat(this.value))
+        });
+
+        $("#grandTotal").val(gr_tot.toFixed(2, 2));
+    }
+
+    function checkqty(sl) {
+
+        var y = $("#Quantity_" + sl).val();
+        var x = $("#BuyingPrice_" + sl).val();
+        if (isNaN(y)) {
+            alert("Must Input Number");
+            document.getElementById("Quantity_" + sl).value = '';
+            return false;
+        }
+        if (isNaN(x)) {
+            alert("Must Input Number");
+            document.getElementById("BuyingPrice_" + sl).value = '';
+            return false;
+        }
+    }
+
+        function checkExpiredate(sl) {
+        var purdates = $("#PurchaseDate").val();
+        var expiredate = $("#ExpiryDate_" + sl).val();
+        //var expiredate = $("#ExpiryDate_1").val();
+        //var purchasedate = new Date(purdates);
+        //var expirydate = new Date(expiredate);
+            if (expiredate <= purdates) {
+            alert('Expiry Date Should Be Greater than Purchase Date');
+            document.getElementById("ExpiryDate_" + sl).value = '';
+            return false;
+        }
+        return true;
+    }
+
+    //Delete row
+    function deleteRow(e) {
+        var t = $("#purchaseTable > tbody > tr").length;
+        if (1 == t) alert("There only one row you can't delete.");
+        else {
+            var a = e.parentNode.parentNode;
+            a.parentNode.removeChild(a)
+        }
+        calculateSum()
+    }
+
+    //Calculate summation
+    function calculateSum() {
+
+        var t = 0,
+            a = 0,
+            e = 0,
+            o = 0,
+            p = 0;
+
+        //Total Discount
+        $("#discount_price").each(function () {
+            isNaN(this.value) || 0 == this.value.length || (p += parseFloat(this.value))
+        }),
+
+            $("#discount_price").val(p.toFixed(2, 2)),
+
+            //Total Price
+            $(".TotalPrice").each(function () {
+                isNaN(this.value) || 0 == this.value.length || (t += parseFloat(this.value))
+            }),
+
+            e = t.toFixed(2, 2);
+        f = p.toFixed(2, 2);
+        var test = +e + -f;
+        //alert(test);
+        $("#grandTotal").val(test.toFixed(2, 2));
+    }
+
+
+    </script>
+}

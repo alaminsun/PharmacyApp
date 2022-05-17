@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhramacyApp", "PhramacyApp.csproj", "{146D3F54-2BD0-4E81-B065-E0657D4966E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmacyAppRDLC", "..\PharmacyAppRDLC\PharmacyAppRDLC.csproj", "{2180375E-CD09-4812-99E8-42A72C3F63BC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{146D3F54-2BD0-4E81-B065-E0657D4966E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{146D3F54-2BD0-4E81-B065-E0657D4966E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{146D3F54-2BD0-4E81-B065-E0657D4966E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{146D3F54-2BD0-4E81-B065-E0657D4966E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2180375E-CD09-4812-99E8-42A72C3F63BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2180375E-CD09-4812-99E8-42A72C3F63BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2180375E-CD09-4812-99E8-42A72C3F63BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2180375E-CD09-4812-99E8-42A72C3F63BC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {30F2923C-2D39-4E45-AAF7-3389E5AAF052}
+	EndGlobalSection
+EndGlobal

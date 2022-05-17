@@ -1,0 +1,374 @@
+﻿@{
+    ViewData["Title"] = localizer["Medicine"];
+    ViewData["Caption"] = localizer["Manage Medicine here"];
+}
+<div class="card">
+    <div class="col-sm-12" style="padding:20px">
+        <a onclick="jQueryModalGet('/master/medicine/OnGetCreateOrEdit','Create Medicine')" class="btn bg-success">
+            <i class="fa fa-plus-square"></i> Create
+        </a>
+        <a id="reload" class="btn btn-primary text-white">
+            <i class="fa fas fa-bolt"></i>
+            Reload
+        </a>
+    </div>
+    @*<div id="viewAll" class="card-body table-responsive">
+    </div>*@
+</div>
+@*@section Scripts
+    {
+        <script src="~/js/site.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#medicineTable").DataTable();
+                loadData();
+                $('#reload').on('click', function () {
+                    loadData();
+                });
+            });
+            function loadData() {
+                $('#viewAll').load('/master/medicine/GetFilteredItems');
+            }
+        </script>
+    }*@
+
+@*@using PhramacyApp.Areas.Master.Models
+@model Medicine*@
+<table class="table table-striped table-bordered table-responsive" id="medicineTable" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                @localizer["Id"]
+            </th>
+            <th>
+                @localizer["Medicine Id"]
+            </th>
+            <th>
+                @localizer["Medicine Name"]
+            </th>
+            <th style="width:30%">
+                @localizer["Generic"]
+            </th>
+            <th>
+                @localizer["Category"]
+            </th>
+            <th>
+                @localizer["Shelf"]
+            </th>
+            <th>
+                @localizer["Strength"]
+            </th>
+            <th>
+                @localizer["Buying Price"]
+            </th>
+            <th>
+                @localizer["Selling Price"]
+            </th>
+            @*            <th style="width:10%">
+                    @localizer["Expiry Date"]
+                </th>*@
+            <th style="width:40%">
+                @localizer["Manufacturer"]
+            </th>
+            <th style="width:10%">
+                @localizer["Actions"]
+            </th>
+        </tr>
+    </thead>
+    @*<tbody>
+
+            @foreach (var medicine in Model.MedicineList)
+            {
+                <tr>
+                    <td>
+                        @medicine.Id
+                    </td>
+                    <td>
+                        @medicine.Medicine_Id
+                    </td>
+                    <td>
+                        @medicine.Medicine_Name
+                    </td>
+                    <td>
+                        @medicine.Generic_Name
+                    </td>
+                    <td>
+                        @medicine.Category_Name
+                    </td>
+                    <td>
+                        @medicine.Shelf_Name
+                    </td>
+                    <td>
+                        @medicine.Strength_Name
+                    </td>
+                    <td>
+                        @medicine.Buying_Price
+                    </td>
+                    <td>
+                        @medicine.Selling_Price
+                    </td>
+                    <td style="width:40%">
+                        @medicine.Supplier_Name
+                    </td>
+
+                    <td text-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Action
+                            </button>
+                            <div class="dropdown-menu shadow animated--grow-in">
+                                <a onclick="jQueryModalGet('/master/medicine/OnGetCreateOrEdit?id=@medicine.Id', 'Edit Menu')" class="dropdown-item">
+                                    <i class="fas fa-pencil-alt"></i> @localizer["Edit"]
+                                </a>
+                                <form id="form_delete_@medicine.Id" asp-controller="medicine" method="post" asp-action="OnPostDelete" asp-route-id="@medicine.Id" onsubmit="return jQueryModalDelete(this)" class="d-inline">
+                                    <a href="javascript:$('#form_delete_@medicine.Id').submit();" class="dropdown-item btn btn-danger"><i class="fas fa-trash-alt"></i> @localizer["Delete"]</a>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>*@
+</table>
+<br />
+@*<table class="table table-striped table-bordered table-responsive" style="width:100%">
+        <tr>
+            @for(int i=0; i<Model.PageCount; i++)
+                {
+                    <td>
+                        @if(i != Model.CurrentIndex)
+                    {
+                        <a herf="javascript: PagerClick(@i);">@i</a>
+                    }
+                    else
+                    {
+                        <span>@i</span>
+                    }
+                    </td>
+                }
+        </tr>
+    </table>
+    <input type="hidden" id="hfCurrentPageIndex" name="currentPageIndex" />*@
+@*<script>
+        //function PagerClick(index) {
+        //    document.getElementById("hfCurrentPageIndex").value = index;
+        //    document.forms[0].submit();
+        //}
+        $(document).ready(function () {
+            var dt = $("#medicineTable").DataTable();
+            //var dt = $('table').DataTable();
+            dt.column(0).visible(false);
+            ////hide the second and third columns
+            //dt.columns([1, 2]).visible(false);
+        });
+
+    </script>*@
+<link href="~/css/site.css" rel="stylesheet" />
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            //$('#medicineTable').DataTable({
+            //    "processing": true,
+            //    "serverSide": true,
+            //    "searching": true,
+            //    "paging": true,
+            //    "ajax": $.fn.dataTable.pipeline({
+            //        url: 'Medicine/GetFilteredItems',
+            //        pages: 5 //number of pages to cache
+            //    }),
+            //    "columns": [
+            //        // For Student.Id
+            //        { "data": "id", "name": "Id" },
+            //        // For Student.Firstname
+            //        { "data": "medicine_Id", "name": "MedicineId" },
+            //        // For Student.Lastname
+            //        { "data": "medicine_Name", "name": "MedicineName" },
+            //        { "data": "generic_Name", "name": "Generic" },
+            //        { "data": "category_Name", "name": "Category" },
+            //        { "data": "shelf_Name", "name": "Shelf" },
+            //        { "data": "strength_Name", "name": "Strength" },
+            //        //{ "data": "buying_Price", "name": "Buying Price" },
+            //        {
+            //            "data": "buying_Price", "name": "Buying Price",
+            //            "render": function (data) {
+            //                return parseFloat(data).toFixed(2);
+            //            }
+            //        },
+            //        {
+            //            "data": "selling_Price", "name": "Selling Price",
+            //            "render": function (data) {
+            //                return parseFloat(data).toFixed(2);
+            //            }
+            //        },
+            //        //{ "data": "selling_Price", "name": "Selling Price" },
+            //        { "data": "supplier_Name", "name": "Menufacturer" },
+            //        // For Student.CreatedDate
+            //        //{
+            //        //    "data": "createdDate", "name": "CreatedDate",
+            //        //    "render": function (data) {
+            //        //        var date = new Date(data);
+            //        //        return date.toLocaleString();
+            //        //    }
+            //        //},
+            //        //{
+            //        //    'data': null,
+            //        //    'render': function (data, type, row) {
+            //        //        return '<button id="' + row.id + '" onclick="detailsClick(this)">Details</button>'
+            //        //            + '<button id="' + row.id + '" onclick="editClick(this)">Edit</button>'
+            //        //            + '<button id="' + row.id + '" onclick="deleteClick(this)">Delete</button>'
+            //        //    }
+            //        //}
+            //        {
+            //            data: null,
+            //            render: function (data, type, row) {
+            //                //return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.id + "'); >Delete</a>";
+            //                return "<div class='btn-group'><button type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Action</button>"
+            //                    + "<div class='dropdown-menu shadow animated--grow-in'><a href = '#' onclick=EditData('" + row.id + "'); class='dropdown-item'><i class='fas fa-pencil-alt'></i>Edit</a>"
+            //            //        + "<form id='form_delete_'" + row.id + "'' asp-controller='medicine' method='post' asp-action='OnPostDelete' asp-route-id='" + row.id+"' onsubmit = 'return jQueryModalDelete(this)' class='d-inline' >"
+            //            //        + "<a href='javascript: $('#form_delete_'" + row.id+"'').submit();' class='dropdown-item btn btn-danger'><i class='fas fa-trash-alt'></i> Delete</a>"
+            //            //+"</form>"
+            //                    + "<a href='#' onclick = DeleteData('" + row.id + "'); class='dropdown-item'><i class='fas fa-trash-alt'></i>Delete</a>"
+            //                    //+ "<a href = '#' class='btn btn-danger' onclick = DeleteData('" + row.id + "');><i class='fas fa-trash-alt'></i> Delete</a>"
+            //        +"</div>"
+            //    +"</div>"
+            //            }
+            //        }
+            //    ],
+            //    language: {
+            //        processing: '<div class="spinner"></div>',
+            //        zeroRecords: "No matching records found"
+            //    }
+            //});
+
+            $('#medicineTable').DataTable({
+                processing: true,
+                serverSide: true,
+                searching: true,
+                ordering: true,
+                paging: true,
+                "ajax": {
+                    "url": "Medicine/GetProducts",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                    "columns": [
+                    // For Student.Id
+                    { "data": "id", "name": "Id" },
+                    // For Student.Firstname
+                    { "data": "medicine_Id", "name": "MedicineId" },
+                    // For Student.Lastname
+                    { "data": "medicine_Name", "name": "MedicineName" },
+                    { "data": "generic_Name", "name": "Generic" },
+                    { "data": "category_Name", "name": "Category" },
+                    { "data": "shelf_Name", "name": "Shelf" },
+                    { "data": "strength_Name", "name": "Strength" },
+                    //{ "data": "buying_Price", "name": "Buying Price" },
+                    {
+                        "data": "buying_Price", "name": "Buying Price",
+                        "render": function (data) {
+                            return parseFloat(data).toFixed(2);
+                        }
+                    },
+                    {
+                        "data": "selling_Price", "name": "Selling Price",
+                        "render": function (data) {
+                            return parseFloat(data).toFixed(2);
+                        }
+                    },
+                    //{ "data": "selling_Price", "name": "Selling Price" },
+                    { "data": "supplier_Name", "name": "Menufacturer" },
+                    // For Student.CreatedDate
+                    //{
+                    //    "data": "createdDate", "name": "CreatedDate",
+                    //    "render": function (data) {
+                    //        var date = new Date(data);
+                    //        return date.toLocaleString();
+                    //    }
+                    //},
+                    //{
+                    //    'data': null,
+                    //    'render': function (data, type, row) {
+                    //        return '<button id="' + row.id + '" onclick="detailsClick(this)">Details</button>'
+                    //            + '<button id="' + row.id + '" onclick="editClick(this)">Edit</button>'
+                    //            + '<button id="' + row.id + '" onclick="deleteClick(this)">Delete</button>'
+                    //    }
+                    //}
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            //return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.id + "'); >Delete</a>";
+                            return "<div class='btn-group'><button type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Action</button>"
+                                + "<div class='dropdown-menu shadow animated--grow-in'><a href = '#' onclick=EditData('" + row.id + "'); class='dropdown-item'><i class='fas fa-pencil-alt'></i>Edit</a>"
+                        //        + "<form id='form_delete_'" + row.id + "'' asp-controller='medicine' method='post' asp-action='OnPostDelete' asp-route-id='" + row.id+"' onsubmit = 'return jQueryModalDelete(this)' class='d-inline' >"
+                        //        + "<a href='javascript: $('#form_delete_'" + row.id+"'').submit();' class='dropdown-item btn btn-danger'><i class='fas fa-trash-alt'></i> Delete</a>"
+                        //+"</form>"
+                                + "<a href='#' onclick = DeleteData('" + row.id + "'); class='dropdown-item'><i class='fas fa-trash-alt'></i>Delete</a>"
+                                //+ "<a href = '#' class='btn btn-danger' onclick = DeleteData('" + row.id + "');><i class='fas fa-trash-alt'></i> Delete</a>"
+                    +"</div>"
+                +"</div>"
+                        }
+                    }
+                ],
+            });
+        });
+
+        function EditData(CustomerID) {
+            jQueryModalGet('/master/medicine/OnGetCreateOrEdit?id=' + CustomerID+'', 'Edit Menu')
+            //if (confirm("Are you sure you want to delete ...?")) {
+            //    Delete(CustomerID);
+            //} else {
+            //    return false;
+            //}
+        }
+        
+        function DeleteData(CustomerID) {
+            debugger
+            if (confirm("Are you sure you want to delete ...?")) {
+                Delete(CustomerID);
+            } else {
+                return false;
+            }
+        }
+
+        
+        function Delete(CustomerID) {
+            debugger
+            var url = '@Url.Content("~/")' + "master/medicine/OnPostDelete";
+            $.post(url, { id: CustomerID }, function(data) {
+        if (data) {
+            oTable = $('#medicineTable').DataTable();
+            oTable.draw();
+        } else {
+            alert("Something Went Wrong!");
+        }
+    });
+}
+
+        //Details button listener
+        function detailsClick(obj) {
+            //var rowID = $(obj).attr('id');
+            var studentId = $(obj).closest('tr').find('td:first').html();
+            //Go to details page of student
+            window.location.replace("Students/Details/" + studentId);
+
+        }
+        //Edit button listener
+        function editClick(obj) {
+            //var rowID = $(obj).attr('id');
+            var studentId = $(obj).closest('tr').find('td:first').html();
+            //Go to edit page of student
+            //window.location.replace("Students/Edit/" + studentId);
+            alert("Cannot edit student " + studentId + " yet. Prepare Students/Edit view first.");
+        }
+        //Delete button listener
+        function deleteClick(obj) {
+            //var rowID = $(obj).attr('id');
+            var studentId = $(obj).closest('tr').find('td:first').html();
+            //Go to delete page of student
+            //window.location.replace("Students/Delete/" + studentId);
+            alert("Cannot delete student " + studentId + " yet. Prepare Students/Delete view first.");
+        }
+    </script>
+}
+

@@ -1,0 +1,76 @@
+﻿@using PhramacyApp.Areas.Admin.Models
+@model IEnumerable<MenuViewModel>
+<table class="table table-striped" id="menuTable">
+    <thead>
+        <tr>
+            <th>
+                @localizer["Id"]
+            </th>
+            <th>
+                @localizer["Name"]
+            </th>
+            <th>
+                @localizer["Sequence"]
+            </th>
+            @*<th>
+                @localizer["Role"]
+            </th>*@
+            <th>
+                @localizer["Area"]
+            </th>
+            <th style="width:10%">
+                @localizer["Actions"]
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var menu in Model)
+        {
+        <tr>
+            <td>
+                @menu.Mh_Id
+            </td>
+            <td>
+                @menu.Mh_Name
+            </td>
+            <td>
+                @menu.Mh_Seq
+            </td>
+            @*<td>
+                @menu.Role_name
+            </td>*@
+            <td>
+                @menu.Area
+            </td>
+            <td text-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Action
+                    </button>
+                    <div class="dropdown-menu shadow animated--grow-in">
+                        <a onclick="jQueryModalGet('/admin/menu/OnGetCreateOrEdit?id=@menu.Mh_Id', 'Edit Menu')" class="dropdown-item">
+                            <i class="fas fa-pencil-alt"></i> @localizer["Edit"]
+                        </a>
+                        <form id="form_delete_@menu.Mh_Id" asp-controller="Menu" method="post" asp-action="OnPostDelete" asp-route-id="@menu.Mh_Id" onsubmit="return jQueryModalDelete(this)" class="d-inline">
+                            <a href="javascript:$('#form_delete_@menu.Mh_Id').submit();" class="dropdown-item"><i class="fas fa-trash-alt"></i> @localizer["Delete"]</a>
+                        </form>
+                        @*@if (role.Name != "SuperAdmin")
+                    {
+
+                        <a style='margin-right:16px' asp-controller="Permission" asp-action="Index" asp-route-roleId="@role.Id" class="dropdown-item">
+                            <i class="fas fa-wrench"></i> @localizer["Manage Permissions"]
+                        </a>
+                    }*@
+                    </div>
+                </div>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $(document).ready(function () {
+        $("#menuTable").DataTable();
+    });
+</script>
