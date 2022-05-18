@@ -409,9 +409,9 @@ namespace PhramacyApp.Repository
             }
         }
 
-        public async Task<IEnumerable<PurchaseModel>> GetPurchaseList()
+        public async Task<IEnumerable<PurchaseModel>> GetPurchaseList(int Purchase_Master_Id)
         {
-            var query = "Select * From VW_Purchase_Invoice Where Purchase_Id=1";
+            var query = "Select * From VW_Purchase_Invoice Where Purchase_Id="+ Purchase_Master_Id + "";
             using (var connection = new SqlConnection(configuration.GetConnectionString("ApplicationConnection")))
             {
 
