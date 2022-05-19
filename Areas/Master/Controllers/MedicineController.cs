@@ -34,7 +34,7 @@ namespace PhramacyApp.Areas.Master.Controllers
 
         [HttpPost]
         public async Task<DataTableResponse<MedicineModel>> GetProducts()
-        {
+       {
             var request = new DataTableRequest();
 
             request.Draw = Convert.ToInt32(Request.Form["draw"].FirstOrDefault());
