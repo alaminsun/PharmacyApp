@@ -28,11 +28,11 @@ namespace PhramacyApp.Areas.Master.Validators
             RuleFor(p => p.Buying_Price)
                       .NotEmpty()
                       .WithMessage("BuyingPrice is Required")
-                      .GreaterThanOrEqualTo(1).WithMessage("BuyingPrice must be greater than 0");
+                      .GreaterThanOrEqualTo(0).WithMessage("BuyingPrice must be greater than 0");
             RuleFor(p => p.Selling_Price)
                       .NotEmpty()
                       .WithMessage("SellingPrice is Required")
-                      .GreaterThanOrEqualTo(1).WithMessage("SellingPrice must be greater than 0");
+                      .GreaterThanOrEqualTo(0).WithMessage("SellingPrice must be greater than 0");
             //RuleFor(p => p.Expiry_Date)
             //   .NotEmpty().WithMessage("Date is required.")
             //   .NotNull();
