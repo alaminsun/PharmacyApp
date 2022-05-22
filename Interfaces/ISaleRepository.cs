@@ -9,7 +9,7 @@ namespace PhramacyApp.Interfaces
     public interface ISaleRepository : IGenericRepository<SaleMasterModel>
     {
         Task<IEnumerable<SaleMasterModel>> GetAllMedicine();
-        Task<SaleModel> GetMedicineId(string medicineId, string manufacturer_id);
+        Task<SaleModel> GetMedicineId(string medicineId);
         Task<IEnumerable<SaleModel>> GetMedicineInfo(string medicine);
         Task<SaleMasterModel> GetByMasterIdAsync(int id);
         Task<SaleMasterModel> UpdateSaleAsync(int id, SaleMasterModel entity);

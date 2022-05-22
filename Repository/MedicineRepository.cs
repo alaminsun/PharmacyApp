@@ -404,7 +404,7 @@ namespace PhramacyApp.Repository
 
                 using (var connection = new SqlConnection(configuration.GetConnectionString("ApplicationConnection")))
                 {
-                    return (await connection.QueryAsync<MedicineModel>(procedure, parameters, commandType: CommandType.StoredProcedure)).ToList();
+                    return (await connection.QueryAsync<MedicineModel>(procedure, parameters, commandTimeout:80, commandType: CommandType.StoredProcedure)).ToList();
                 }
             }
             catch (Exception ex)

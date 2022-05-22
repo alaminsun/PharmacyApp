@@ -26,10 +26,10 @@ namespace PhramacyApp.Areas.Master.Validators
                 .EmailAddress()
                 .WithMessage("A valid email address is required.");
 
-            RuleFor(p => p.Phone)
-                .NotEmpty().WithMessage("Phone Number is required.")
-                .NotNull()
-                .MaximumLength(11).WithMessage("Number must not exceed 11 characters.");
+            //RuleFor(p => p.Phone)
+            //    .NotEmpty().WithMessage("Phone Number is required.")
+            //    .NotNull()
+            //    .MaximumLength(11).WithMessage("Number must not exceed 11 characters.");
 
             //RuleFor(p => p.Address)
             //    .NotEmpty().WithMessage("Adress is required.")

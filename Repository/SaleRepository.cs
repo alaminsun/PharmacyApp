@@ -298,7 +298,7 @@ namespace PhramacyApp.Repository
             //            " And m.ShelfId = s.Id AND m.MedicineName Like '" + medicine + "%'";
             //var query = " SELECT m.Id,m.Medicine_Id,m.Medicine_Name,m.Category_Id,c.Category_Name,m.Shelf_Id,s.Shelf_Name,s.Shelf_Number,m.Buying_Price,m.Selling_Price,m.Expiry_Date " +
             //            " FROM MedicineInfo m, CategoryInfo c, ShelfInfo s Where m.Category_Id = c.Id  And m.Shelf_Id = s.Id AND m.Medicine_Name Like '" + medicine + "%'";
-            var query = " SELECT m.Id,m.Medicine_Id,m.Medicine_Name,m.Category_Id,c.Category_Name,m.Shelf_Id,s.Shelf_Name,s.Shelf_Number,m.Buying_Price,m.Selling_Price,m.Expiry_Date " +
+            var query = " SELECT Top(100) m.Id,m.Medicine_Id,m.Medicine_Name,m.Category_Id,c.Category_Name,m.Shelf_Id,s.Shelf_Name,s.Shelf_Number,m.Buying_Price,m.Selling_Price,m.Expiry_Date " +
                         " FROM MedicineInfo m, CategoryInfo c, ShelfInfo s Where m.Category_Id = c.Id  And m.Shelf_Id = s.Id AND m.Medicine_Name Like '" + medicine + "%'";
             using (var connection = new SqlConnection(configuration.GetConnectionString("ApplicationConnection")))
             {
@@ -308,18 +308,10 @@ namespace PhramacyApp.Repository
             }
         }
 
-        public async Task<SaleModel> GetMedicineId(string medicineId, string manufacturer_id)
+        public async Task<SaleModel> GetMedicineId(string medicineId)
         {
-            //var query = " SELECT * FROM MedicineInfo m, CategoryInfo c, ShelfInfo s Where m.CategoryId = c.Id " +
-            //            " And m.ShelfId = s.Id AND m.MedicineId = '"+ medicineId + "'";
-            //var query = " SELECT m.Id, m.Medicine_Id, m.Medicine_Name, m.Batch_No, m.Category_Id, c.Category_Name, m.Shelf_Id, s.Shelf_Name, s.Shelf_Number, m.Buying_Price, m.Selling_Price, m.Expiry_Date " +
-            //" FROM MedicineInfo m left Join  CategoryInfo c on m.Category_Id = c.Id left join  ShelfInfo s on m.Shelf_Id = s.Id " +
-            //"Where m.Medicine_Id = '" + medicineId + "'";
-            //var query = "SELECT m.Id, m.Medicine_Id, m.Medicine_Name, m.Batch_No, p.Stock_Qty,  m.Category_Id, c.Category_Name, m.Shelf_Id, "+
-            //            "m.Buying_Price, m.Selling_Price, m.Expiry_Date FROM MedicineInfo m left Join  CategoryInfo c on m.Category_Id = c.Id left Join  Purchase_Detail_tbl p on p.Medicine_Id = m.Medicine_Id "+
-            //            " Where m.Medicine_Id = '" + medicineId + "'";
-            var query = "SELECT m.Id, m.Medicine_Id, m.Medicine_Name, m.Selling_Price FROM MedicineInfo m left Join  Purchase_Detail_tbl p on p.Medicine_Id = m.Medicine_Id "+
-                        " Where m.Medicine_Id = '" + medicineId + "'";
+           
+            var query = "SELECT Id, Medicine_Id, Medicine_Name, Selling_Price FROM MedicineInfo Where Medicine_Id = '"+ medicineId + "'";
             using (var connection = new SqlConnection(configuration.GetConnectionString("ApplicationConnection")))
             {
                 connection.Open();
