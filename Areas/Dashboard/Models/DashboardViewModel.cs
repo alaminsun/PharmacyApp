@@ -24,6 +24,7 @@ namespace PhramacyApp.Areas.Dashboard.Models
         public decimal Selling_Price { get; set; }
         public int Quantity { get; set; }
         public string Expiry_Date { get; set; }
+        public int Stock_Qty { get; set; }
 
     }
 }

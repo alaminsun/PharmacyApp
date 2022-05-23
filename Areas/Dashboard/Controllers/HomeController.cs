@@ -47,12 +47,25 @@ namespace PharmacyApp.Areas.Dashboard.Controllers
 
         private async Task<List<DashboardViewModel>> GetLowtockMedicine()
         {
-            var query = "Select pd.Medicine_Id, m.Medicine_Name,pd.Batch_No,pd.Quantity,pd.Buying_Price from Purchase_Detail_tbl pd, MedicineInfo m "+
-                    " where m.Medicine_Id = pd.Medicine_Id And pd.Quantity <= 5";
+            //string categoryTab = GetCategoryTabletType();
+            //string categoryCap = GetCategoryCapsuleType();
+            string query;
+            //if (categoryTab == "Tablet" || categoryCap == "Capsule")
+            //{
+            //     query = " Select pd.Medicine_Id, m.Medicine_Name,pd.Batch_No,pd.Stock_Qty,pd.Buying_Price from Purchase_Detail_tbl pd, MedicineInfo m where m.Medicine_Id = pd.Medicine_Id And pd.Stock_Qty <= 10";
+            //}
+            //else
+            //{
+            //    query = " Select pd.Medicine_Id, m.Medicine_Name,pd.Batch_No,pd.Stock_Qty,pd.Buying_Price from Purchase_Detail_tbl pd, MedicineInfo m where m.Medicine_Id = pd.Medicine_Id And pd.Stock_Qty <= 1";
+            //}
+            query = "Select * From VW_StockProductList";
             using (var connection = new SqlConnection(configuration.GetConnectionString("ApplicationConnection")))
             {
                 List<DashboardViewModel> items = new List<DashboardViewModel>();
                 //var model = new PurchaseDetailModel();
+
+                    //var procedure = "uspLowStockMedicine";
+
                 connection.Open();
                 var result = await connection.QueryAsync<DashboardViewModel>(query);
                 var length = result.Count();
@@ -69,7 +82,7 @@ namespace PharmacyApp.Areas.Dashboard.Controllers
                         model.Buying_Price = item.Buying_Price;
                         //model.Expiry_Date = item.Expiry_Date;
                         //model.Selling_Price = item.Selling_Price;
-                        model.Quantity = item.Quantity;
+                        model.Stock_Qty = item.Stock_Qty;
                         //model.Total_Price = item.Total_Price;
                         //model.Quantity = item.Quantity;
                         //model.Purchase_Detail_Id = item.Purchase_Detail_Id;
@@ -84,6 +97,41 @@ namespace PharmacyApp.Areas.Dashboard.Controllers
             }
         }
 
+        private string GetCategoryTabletType()
+        {
+            string categoryTab="";
+            string query = "Select Category_Name From CategoryInfo Where Category_Name= 'Tablet' ";
+            using (var connection = new SqlConnection(configuration.GetConnectionString("ApplicationConnection")))
+            {
+                connection.Open();
+                DataTable dt = _dBHelper.GetDataTable(query);
+                //DataTable dt = connection.QuerySingleOrDefault(query);
+                if (dt.Rows.Count > 0)
+                {
+                    categoryTab = dt.Rows[0][0].ToString();
+                }
+            }
+
+            return categoryTab;
+        }
+
+        private string GetCategoryCapsuleType()
+        {
+            string categoryCap = "";
+            string query = "Select Category_Name From CategoryInfo Where Category_Name= 'Capsule' ";
+            using (var connection = new SqlConnection(configuration.GetConnectionString("ApplicationConnection")))
+            {
+                connection.Open();
+                DataTable dt = _dBHelper.GetDataTable(query);
+                //DataTable dt = connection.QuerySingleOrDefault(query);
+                if (dt.Rows.Count > 0)
+                {
+                    categoryCap = dt.Rows[0][0].ToString();
+                }
+            }
+
+            return categoryCap;
+        }
         private int GetSelfCount()
         {
             int selfNo = 0;

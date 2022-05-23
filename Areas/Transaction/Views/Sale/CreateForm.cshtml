@@ -122,9 +122,9 @@
                                 <th>
                                     @localizer["Expiry Date"]
                                 </th>*@
-                                @*<th>
+                                <th>
                                     @localizer["Stock/Qnt"]
-                                </th>*@
+                                </th>
                                 <th>
                                     @localizer["Quantity"]
                                 </th>
@@ -166,9 +166,9 @@
                                     <input type="text" name="Expiry_Date[]" id="Expiry_Date_1" class="form-control datepicker" tabindex="8" placeholder="Expiry date" onchange="checkExpiredate(1)" required="" aria-required="true">
                                 </td>*@
 
-                                @*<td class="wt">
-            <input type="text" id="Available_Quantity_1" class="form-control text-right stock_ctn_1" placeholder="0.00" min="0" readonly />
-        </td>*@
+                                <td class="wt">
+                                    <input type="text" id="Available_Quantity_1" class="form-control text-right stock_ctn_1" placeholder="0.00" min="0" readonly />
+                                </td>
 
                                 <td class="text-right">
                                     <input type="text" name="Quantity[]" id="Quantity_1" class="form-control text-right store_cal_1" onkeyup="quantity_calculate(1),calculate_store(1),checkqty(1);" onchange="quantity_calculate(1),calculate_store(1);" placeholder="0.00" tabindex="9">
@@ -189,7 +189,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td class="text-right" colspan="1"><b>Discount:</b></td>
+                                <td class="text-right" colspan="2"><b>Discount:</b></td>
                                 <td colspan="1">
                                     @*<input type="text" id="Discount_Price" class="text-right form-control" name="Discount_Price" onkeyup="calculate_gandtotal(),calculateSum(),checknum();" onchange="calculate_gandtotal(),calculateSum();" placeholder="0.00">*@
                                     <input type="text" id="Discount_Price" class="text-right form-control" name="Discount_Price" onkeyup="checknum(), calculateSum();" placeholder="0.00">
@@ -369,7 +369,7 @@
                             /*Batch_No: parseInt($('#Batch_No_' + b).val()),*/
                             //Expiry_Date: $('#Expiry_Date_' + b).val(),
                             //Batch_No: parseInt($('#Batch_No_' + b).val()),
-                            //Stock_Qty: $('#ExpiryDate_' + b).val(),
+                            Stock_Qty: $('#Available_Quantity_' + b).val(),
                             Selling_Price: parseFloat($('#Selling_Price_' + b).val()),
                             Quantity: parseInt($('#Quantity_' + b).val()),
                             Total_Price: parseInt($('#Total_Price_' + b).val())
@@ -379,9 +379,6 @@
                     });
 
                     var formData = {
-                        //name: $("#name").val(),
-                        //address: $("#address").val(),
-                        //order: orderArr
                         Sale_Master_Id: $("Sale_Master_Id").val(),
                         Customer_Id: $("#Customer_Id").val(),
                         Selling_Date: $("#Selling_Date").val(),
@@ -550,6 +547,7 @@
                 //var BatchNo = 'Batch_No_' + sl;
                 //var ExpiryDate = 'Expiry_Date_' + sl;
                 var SellingPrice = 'Selling_Price_' + sl;
+                var Available_Quantity = 'Available_Quantity_' + sl;
 
 
                 $.ajax({
@@ -563,7 +561,7 @@
                         debugger
                         //var obj = JSON.parse(data);
                         //$('#' + BatchNo).val(data.batch_No);
-                        //$('#' + available_quantity).val(data.stock_Qty);
+                        $('#' + Available_Quantity).val(data.stock_Qty);
                         //$('#' + ExpiryDate).val(data.expiry_Date);
                         $('#' + SellingPrice).val(data.selling_Price);
 
@@ -600,7 +598,7 @@
             tab7 = tabindex + 7,
             tab8 = tab7 + 1;
 
-        newdiv.innerHTML = '<td class="span3 manufacturer"><input type="text" name="Medicine_Name"  class="form-control Medicine_Name productSelection" onkeypress="product_pur_or_list(' + count + ')" placeholder="Medicine Name" id="Medicine_Name_' + count + '" tabindex="' + tab1 + '" required><input type="hidden" class="autocomplete_hidden_value Medicine_Id_' + count + '" name="Medicine_Id[]" id="Medicine_Id"/><input type="hidden" class="sl" value="' + count + '"></td><td class="text-right"><input type="text" name="Quantity[]" tabindex="' + tab4 + '" required  id="Quantity_' + count + '" class="form-control text-right store_cal_' + count + '" onkeyup="calculate_store(' + count + '),checkqty(' + count + ');" onchange="calculate_store(' + count + ');" placeholder="0.00" value="" min="0"/> </td><td class="test"><input type="text" name="Selling_Price[]"  required onkeyup="calculate_store(' + count + '),checkqty(' + count + ');" onchange="calculate_store(' + count + ');" id="Selling_Price_' + count + '" class="form-control Selling_Price_' + count + ' text-right" placeholder="0.00" value="" min="0" tabindex="' + tab5 + '"/></td><td class="text-right"><input class="form-control Total_Price text-right Total_Price_' + count + '" type="text" name="Total_Price[]" id="Total_Price_' + count + '" value="0.00" readonly="readonly" /> </td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button type="button" class="btn btn-danger" tabindex="' + tab6 + '" onclick="deleteRow(this)"><i class="fa fa-close"></i></button></td>';
+        newdiv.innerHTML = '<td class="span3 manufacturer"><input type="text" name="Medicine_Name"  class="form-control Medicine_Name productSelection" onkeypress="product_pur_or_list(' + count + ')" placeholder="Medicine Name" id="Medicine_Name_' + count + '" tabindex="' + tab1 + '" required><input type="hidden" class="autocomplete_hidden_value Medicine_Id_' + count + '" name="Medicine_Id[]" id="Medicine_Id"/><input type="hidden" class="sl" value="' + count + '"></td><td><input type="text" id="Available_Quantity_' + count + '" class="form-control text-right stock_ctn_1" placeholder="0.00" min="0" readonly /></td><td class="text-right"><input type="text" name="Quantity[]" tabindex="' + tab4 + '" required  id="Quantity_' + count + '" class="form-control text-right store_cal_' + count + '" onkeyup="calculate_store(' + count + '),checkqty(' + count + ');" onchange="calculate_store(' + count + ');" placeholder="0.00" value="" min="0"/> </td><td class="test"><input type="text" name="Selling_Price[]"  required onkeyup="calculate_store(' + count + '),checkqty(' + count + ');" onchange="calculate_store(' + count + ');" id="Selling_Price_' + count + '" class="form-control Selling_Price_' + count + ' text-right" placeholder="0.00" value="" min="0" tabindex="' + tab5 + '"/></td><td class="text-right"><input class="form-control Total_Price text-right Total_Price_' + count + '" type="text" name="Total_Price[]" id="Total_Price_' + count + '" value="0.00" readonly="readonly" /> </td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button type="button" class="btn btn-danger" tabindex="' + tab6 + '" onclick="deleteRow(this)"><i class="fa fa-close"></i></button></td>';
         document.getElementById(divName).appendChild(newdiv);
         document.getElementById(tabin).focus();
         document.getElementById("add_invoice_item").setAttribute("tabindex", tab7);

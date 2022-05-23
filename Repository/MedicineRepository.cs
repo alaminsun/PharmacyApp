@@ -342,9 +342,7 @@ namespace PhramacyApp.Repository
             if (dt.Rows.Count > 0)
             {
                 string Medicine_Id = dt.Rows[0]["Medicine_Id"].ToString();
-                //string approvedAmount = dt.Rows[0]["TOT_APPROVED_AMT"].ToString();
-                //string dueAmount = (Convert.ToInt64(ceilingAmount) - Convert.ToInt64(approvedAmount)).ToString();
-                //return ceilingAmount + "/" + approvedAmount + "/" + dueAmount;
+
                 return Medicine_Id;
             }
             else
@@ -366,20 +364,11 @@ namespace PhramacyApp.Repository
 
         public List<MedicineModel> GetSearchValue(string searchValue)
         {
-
-            //    Data.StudentContext.StudentList
-            //    .Where(a => a.Lastname.Contains(searchValue) || a.Firstname.Contains(searchValue))
-            //    .OrderBy(x => x.GetType().GetProperty(sortColumnName).GetValue(x))//Sort by sortColumn
-            //    .Skip(start)
-            //    .Take(length)
-            //    .ToList<Student>();
-            //var query = "Select * From MedicineInfo Where 1 = 1";
             var query = " Select a.Id,a.Medicine_Id,a.Medicine_Name,a.Generic_Name,a.Supplier_Id,a.Supplier_Name,a.Category_Id,c.Category_Name,a.Strength_Code," +
                  " a.Strength_Name,a.Shelf_Id,s.Shelf_Name,a.Buying_Price,a.Selling_Price from MedicineInfo a " +
                  " left join  CategoryInfo c on a.Category_Id = c.Id " +
                  " left join ShelfInfo s on a.Shelf_Id = s.Id Where 1=1";
             query = query + " AND a.Medicine_Name like '" + searchValue + "%'";
-            //query = query + "AND Medicine_Id like '%" + searchValue + "%'";
             using (var connection = new SqlConnection(configuration.GetConnectionString("ApplicationConnection")))
             {
                 connection.Open();
