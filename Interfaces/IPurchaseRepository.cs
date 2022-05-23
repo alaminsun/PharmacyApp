@@ -20,7 +20,7 @@ namespace PhramacyApp.Interfaces
         Task<List<PurchaseDetailModel>> GetDetailListByMasterId(int purchase_Master_Id);
         Task<int> DeleteChildAsync(int detailId, int masterId);
         Task<int> DeleteMasterAsync(int masterId);
-        Task<IEnumerable<PurchaseModel>> GetPurchaseList();
+        Task<IEnumerable<PurchaseModel>> GetPurchaseList(int Purchase_Master_Id);
         Task<IEnumerable<PurchaseModel>> GetPurchaseMasterData(int id);
 
     }

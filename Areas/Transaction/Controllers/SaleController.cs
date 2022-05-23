@@ -62,9 +62,9 @@ namespace PhramacyApp.Areas.Transaction.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> MedicineInfo(string medicineId, string customer_id)
+        public async Task<JsonResult> MedicineInfo(string medicineId)
         {
-            var medicineList = await unitOfWork.Sales.GetMedicineId(medicineId, customer_id);
+            var medicineList = await unitOfWork.Sales.GetMedicineId(medicineId);
             return Json(data: medicineList);
         }
 

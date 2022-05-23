@@ -373,7 +373,7 @@
                             //amount: $(this).find('td:eq(3)').html()
                             Medicine_Id: $('.Medicine_Id_' + b).val(),
                             Medicine_Name: $('#Medicine_Name_' + b).val(),
-                            Batch_No: parseInt($('#Batch_No_' + b).val()),
+                            Batch_No: $('#Batch_No_' + b).val(),
                             Expiry_Date: $('#Expiry_Date_' + b).val(),
                             //Stock_Qty: $('#ExpiryDate_' + b).val(),
                             Buying_Price: parseFloat($('#Buying_Price_' + b).val()),
@@ -589,7 +589,7 @@
             debugger
         var row = $("#purchaseTable tbody tr").length;
         var count = row + 1;
-        alert(count);
+
         var newdiv = document.createElement('tr');
         var tabin = "Medicine_Name_" + count,
             tabindex = count * 7,
@@ -603,7 +603,7 @@
             tab6 = tabindex + 6,
             tab7 = tabindex + 7,
             tab8 = tab7 + 1;
-        alert(tab8);
+
 
         newdiv.innerHTML = '<td class="span3 manufacturer"><input type="text" name="Medicine_Name"  class="form-control Medicine_Name productSelection" onkeypress="product_pur_or_list(' + count + ')" placeholder="Medicine Name" id="Medicine_Name_' + count + '" tabindex="' + tab1 + '" required><input type="hidden" class="autocomplete_hidden_value Medicine_Id_' + count + '" name="Medicine_Id[]" id="Medicine_Id"/><input type="hidden" class="sl" value="' + count + '"></td><td><input type="text" required="required" name="Batch_No[]" id="Batch_No_' + count + '" tabindex="' + tab2 + '" class="form-control text-right"  tabindex="11" placeholder="Batch Id" /></td><td><input type="text" name="Expiry_Date[]" id="Expiry_Date_' + count + '" required="required" class="form-control datepicker" tabindex="' + tab3 + '"  placeholder="Expire Date"/></td><td class="wt"><input type="text" id="Available_Quantity_' + count + '" class="form-control text-right stock_ctn_' + count + '" placeholder="0.00" readonly/></td><td class="text-right"><input type="text" name="Quantity[]" tabindex="' + tab4 + '" required  id="Quantity_' + count + '" class="form-control text-right store_cal_' + count + '" onkeyup="calculate_store(' + count + '),checkqty(' + count + ');" onchange="calculate_store(' + count + ');" placeholder="0.00" value="" min="0"/> </td><td class="test"><input type="text" name="Buying_Price[]"  required onkeyup="calculate_store(' + count + '),checkqty(' + count + ');" onchange="calculate_store(' + count + ');" id="Buying_Price_' + count + '" class="form-control Buying_Price_' + count + ' text-right" placeholder="0.00" value="" min="0" tabindex="' + tab5 + '"/></td><td class="text-right"><input class="form-control Total_Price text-right Total_Price_' + count + '" type="text" name="Total_Price[]" id="Total_Price_' + count + '" value="0.00" readonly="readonly" /> </td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button type="button" class="btn btn-danger" tabindex="' + tab6 + '" onclick="deleteRow(this)"><i class="fa fa-close"></i></button></td>';
         document.getElementById(divName).appendChild(newdiv);

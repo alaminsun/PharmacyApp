@@ -187,7 +187,7 @@ namespace PhramacyApp.Areas.Transaction.Controllers
 
         public async Task<List<PurchaseDetailModel>> GetStockList(int id)
         {
-            var query = "Select pd.Medicine_Id, m.Medicine_Name,pd.Batch_No,pd.Quantity,pd.Buying_Price, m.Selling_Price,m.Expiry_Date, pd.Total_Price " +
+            var query = "Select pd.Medicine_Id, m.Medicine_Name,pd.Batch_No,pd.Quantity,pd.Buying_Price, m.Selling_Price,pd.Expiry_Date, pd.Total_Price " +
         " from Purchase_Detail_tbl pd, MedicineInfo m " +
         " where m.Medicine_Id = pd.Medicine_Id And pd.Purchase_Master_Id="+id+" Order By pd.Medicine_Id ";
             //"and Convert(date,m.expiry_date,103) < Convert(date,'" + currentDate + "',103)";
@@ -392,7 +392,7 @@ namespace PhramacyApp.Areas.Transaction.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Print(string Purchase_Date, int Invoice_No, string Supplier_Name, string Status, string Payment_Type, string Grand_Total, string Discount)
+        public async Task<IActionResult> Print(int Purchase_Master_Id, string Purchase_Date, int Invoice_No, string Supplier_Name, string Status, string Payment_Type, string Grand_Total, string Discount)
         {
             string mimtype = "";
             int extension = 1;
@@ -407,7 +407,7 @@ namespace PhramacyApp.Areas.Transaction.Controllers
             parameters.Add("Grand_Total", Grand_Total);
             parameters.Add("Pymt_Mode", Payment_Type);
             parameters.Add("Status", Status);
-            var Invoices = await unitOfWork.Purchases.GetPurchaseList();
+            var Invoices = await unitOfWork.Purchases.GetPurchaseList(Purchase_Master_Id);
             LocalReport localReport = new LocalReport(path);
             localReport.AddDataSource("DataSet1", Invoices);
             var result = localReport.Execute(RenderType.Pdf, extension, parameters, mimtype);
