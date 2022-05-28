@@ -31,10 +31,17 @@ namespace PhramacyApp.Areas.Master.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> GetAllMedicine()
+        {
+            //var medicineList = await unitOfWork.Medicines.GetAllAsync();
+            var medicineList = await unitOfWork.Medicines.GetAllAsync();
+            return Json(data: medicineList); 
+        }
+
 
         [HttpPost]
         public async Task<DataTableResponse<MedicineModel>> GetProducts()
-       {
+        {
             var request = new DataTableRequest();
 
             request.Draw = Convert.ToInt32(Request.Form["draw"].FirstOrDefault());
@@ -45,16 +52,19 @@ namespace PhramacyApp.Areas.Master.Controllers
                 Value = Request.Form["search[value]"].FirstOrDefault()
             };
             request.Order = new DataTableOrder[] {
-                new DataTableOrder()
-                {
-                    Dir = Request.Form["order[0][dir]"].FirstOrDefault(),
-                    Column = Convert.ToInt32(Request.Form["order[0][column]"].FirstOrDefault())
-                }};
+                 new DataTableOrder()
+                 {
+                     Dir = Request.Form["order[0][dir]"].FirstOrDefault(),
+                     Column = Convert.ToInt32(Request.Form["order[0][column]"].FirstOrDefault())
+                 }};
 
             return await _productService.GetProductsAsync(request);
+
+             //await _productService.GetProductsAsync(request);
+            //return Json(data: medicineList);
         }
 
-        
+
 
         ////[HttpPost]
         //public async Task<JsonResult> GetFilteredItems()
