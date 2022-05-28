@@ -66,76 +66,7 @@ namespace PhramacyApp.Areas.Master.Controllers
 
 
 
-        ////[HttpPost]
-        //public async Task<JsonResult> GetFilteredItems()
-        //{
-        //    System.Threading.Thread.Sleep(2000);//Used to display loading message in demonstration, remove this line in production
-        //    int draw = Convert.ToInt32(Request.Query["draw"]);
-
-        //    // Data to be skipped , 
-        //    // if 0 first "length" records will be fetched
-        //    // if 1 second "length" of records will be fethced ...
-        //    int start = Convert.ToInt32(Request.Query["start"]);
-
-        //    // Records count to be fetched after skip
-        //    int length = Convert.ToInt32(Request.Query["length"]);
-
-        //    // Getting Sort Column Name
-        //    int sortColumnIdx = Convert.ToInt32(Request.Query["order[0][column]"]);
-        //    string sortColumnName = Request.Query["columns[" + sortColumnIdx + "][name]"];
-
-        //    // Sort Column Direction  
-        //    string sortColumnDirection = Request.Query["order[0][dir]"];
-
-        //    // Search Value
-        //    string searchValue = Request.Query["search[value]"].FirstOrDefault()?.Trim();
-
-        //    // Total count matching search criteria 
-        //    //int recordsFilteredCount =
-        //    //        Data.StudentContext.StudentList
-        //    //        .Where(a => a.Lastname.Contains(searchValue) || a.Firstname.Contains(searchValue))
-        //    //        .Count();
-
-        //    int recordsFilteredCount = unitOfWork.Medicines.GetSearchValueCount(searchValue);
-
-
-        //    // Total Records Count
-        //    int recordsTotalCount = unitOfWork.Medicines.GetAllAsync().Result.Count;
-
-        //    // Filtered & Sorted & Paged data to be sent from server to view
-        //    List<MedicineModel> filteredData = null;
-        //    if (sortColumnDirection == "asc")
-        //    {
-        //        //filteredData =
-        //        //    Data.StudentContext.StudentList
-        //        //    .Where(a => a.Lastname.Contains(searchValue) || a.Firstname.Contains(searchValue))
-        //        //    .OrderBy(x => x.GetType().GetProperty(sortColumnName).GetValue(x))//Sort by sortColumn
-        //        //    .Skip(start)
-        //        //    .Take(length)
-        //        //    .ToList<Student>();
-        //        filteredData = unitOfWork.Medicines.GetSearchValue(searchValue);
-        //    }
-        //    else
-        //    {
-        //        //filteredData =
-        //        //   Data.StudentContext.StudentList
-        //        //   .Where(a => a.Lastname.Contains(searchValue) || a.Firstname.Contains(searchValue))
-        //        //   .OrderByDescending(x => x.GetType().GetProperty(sortColumnName).GetValue(x))
-        //        //   .Skip(start)
-        //        //   .Take(length)
-        //        //   .ToList<Student>();
-        //        filteredData = unitOfWork.Medicines.GetSearchValue(searchValue);
-        //    }
-
-        //    return Json(
-        //                new
-        //                {
-        //                    data = filteredData,
-        //                    draw = Request.Query["draw"],
-        //                    recordsFiltered = recordsFilteredCount,
-        //                    recordsTotal = recordsTotalCount
-        //                }
-        //            );
+       
         //}
 
 
