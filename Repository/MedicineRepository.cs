@@ -330,7 +330,7 @@ namespace PhramacyApp.Repository
             medicine.LastModifiedOn = DateTime.Now.ToString();
             string code = string.Empty;
             code = GetMedicineId(id);
-            var query = "UPDATE MedicineInfo SET Medicine_Id=@MedicineId, Category_Id = @CategoryId, Shelf_Id = @ShelfId, Medicine_Name = @MedicineName, Generic_Name = @GenericName, Buying_Price = @BuyingPrice, Selling_Price = @SellingPrice, Supplier_Id = @SupplierId, LastModifiedOn=@LastModifiedOn WHERE Id = @Id";
+            var query = "UPDATE MedicineInfo SET Medicine_Id=@MedicineId,Medicine_Name = @MedicineName, Category_Id = @CategoryId, Shelf_Id = @ShelfId, Strength_Name= @Strength_Name, Generic_Name = @GenericName, Buying_Price = @BuyingPrice, Selling_Price = @SellingPrice, Supplier_Id = @SupplierId, LastModifiedOn=@LastModifiedOn WHERE Id = @Id";
             //INSERT INTO MedicineInfo(Id, CategoryId, ShelfId, MedicineName, BatchNo, BuyingPrice, SellingPrice, ExpiryDate, CreatedOn) VALUES(@MaxID, @CategoryId, @ShelfId, @MedicineName, @BatchNo, @BuyingPrice, @SellingPrice, @ExpiryDate @CreatedOn)
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id, DbType.Int32);
@@ -339,7 +339,7 @@ namespace PhramacyApp.Repository
             parameters.Add("@ShelfId", medicine.Shelf_Id, DbType.String);
             parameters.Add("@MedicineName", medicine.Medicine_Name, DbType.String);
             parameters.Add("@GenericName", medicine.Generic_Name, DbType.String);
-            //parameters.Add("@BatchNo", medicine.Batch_No, DbType.String);
+            parameters.Add("@Strength_Name", medicine.Strength_Name, DbType.String);
             parameters.Add("@BuyingPrice", medicine.Buying_Price, DbType.Decimal);
             parameters.Add("@SellingPrice", medicine.Selling_Price, DbType.Decimal);
             //parameters.Add("@ExpiryDate", medicine.Expiry_Date, DbType.String);
