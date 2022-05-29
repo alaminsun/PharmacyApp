@@ -14,6 +14,9 @@ namespace PhramacyApp.Interfaces
         List<MedicineModel> GetSearchValue(string searchValue);
         MedicineModel GetSupplierNicName(string suplier_Id);
         Task<List<MedicineModel>> GetProductsAsync(ProductListRequest request);
+        //List<MedicineModel> medicineDataForSorting(string sortColumn, string sortColumnDirection);
+        List<MedicineModel> GetAllMedicine();
+        List<MedicineModel> medicineDataForSorting(string sortColumn, string sortColumnDirection);
     }
 }
 

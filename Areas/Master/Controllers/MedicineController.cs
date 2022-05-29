@@ -39,34 +39,88 @@ namespace PhramacyApp.Areas.Master.Controllers
         }
 
 
+        //[HttpPost]
+        //public async Task<DataTableResponse<MedicineModel>> GetProducts()
+        //{
+        //    var request = new DataTableRequest();
+
+        //    request.Draw = Convert.ToInt32(Request.Form["draw"].FirstOrDefault());
+        //    request.Start = Convert.ToInt32(Request.Form["start"].FirstOrDefault());
+        //    request.Length = Convert.ToInt32(Request.Form["length"].FirstOrDefault());
+        //    request.Search = new DataTableSearch()
+        //    {
+        //        Value = Request.Form["search[value]"].FirstOrDefault()
+        //    };
+        //    request.Order = new DataTableOrder[] {
+        //         new DataTableOrder()
+        //         {
+        //             Dir = Request.Form["order[0][dir]"].FirstOrDefault(),
+        //             Column = Convert.ToInt32(Request.Form["order[0][column]"].FirstOrDefault())
+        //         }};
+
+        //    return await _productService.GetProductsAsync(request);
+
+        //     //await _productService.GetProductsAsync(request);
+        //    //return Json(data: medicineList);
+        //}
+
         [HttpPost]
-        public async Task<DataTableResponse<MedicineModel>> GetProducts()
+        public IActionResult GetMedicineList()
         {
-            var request = new DataTableRequest();
-
-            request.Draw = Convert.ToInt32(Request.Form["draw"].FirstOrDefault());
-            request.Start = Convert.ToInt32(Request.Form["start"].FirstOrDefault());
-            request.Length = Convert.ToInt32(Request.Form["length"].FirstOrDefault());
-            request.Search = new DataTableSearch()
+            try
             {
-                Value = Request.Form["search[value]"].FirstOrDefault()
-            };
-            request.Order = new DataTableOrder[] {
-                 new DataTableOrder()
-                 {
-                     Dir = Request.Form["order[0][dir]"].FirstOrDefault(),
-                     Column = Convert.ToInt32(Request.Form["order[0][column]"].FirstOrDefault())
-                 }};
+                var draw = Request.Form["draw"].FirstOrDefault();
+                var start = Request.Form["start"].FirstOrDefault();
+                var length = Request.Form["length"].FirstOrDefault();
+                var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+                var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+                var searchValue = Request.Form["search[value]"].FirstOrDefault();
+                int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                int skip = start != null ? Convert.ToInt32(start) : 0;
+                int recordsTotal = 0;
+                //var customerData = (from tempcustomer in context.Customers select tempcustomer);
+                var medicineData = unitOfWork.Medicines.GetAllMedicine();
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
+                {
+                    //customerData = customerData.OrderBy(sortColumn + " " + sortColumnDirection);
+                    medicineData =  unitOfWork.Medicines.medicineDataForSorting(sortColumn, sortColumnDirection);
+                }
 
-            return await _productService.GetProductsAsync(request);
+                    //int recordsFilteredCount = unitOfWork.Medicines.GetSearchValueCount(searchValue);
 
-             //await _productService.GetProductsAsync(request);
-            //return Json(data: medicineList);
+
+                //    // Total Records Count
+                 recordsTotal = unitOfWork.Medicines.GetAllAsync().Result.Count;
+                if (!string.IsNullOrEmpty(searchValue))
+                {
+
+                    medicineData = unitOfWork.Medicines.GetSearchValue(searchValue);
+                    //customerData = customerData.Where(m => m.FirstName.Contains(searchValue)
+                    //                            || m.LastName.Contains(searchValue)
+                    //                            || m.Contact.Contains(searchValue)
+                    //                            || m.Email.Contains(searchValue));
+                }
+                recordsTotal = medicineData.Count();
+                var data = medicineData.Skip(skip).Take(pageSize).ToList();
+                //var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
+                return Json(
+                            new
+                            {
+                                data = data,
+                                draw = draw,
+                                recordsFiltered = recordsTotal,
+                                recordsTotal = recordsTotal
+                            }
+                        );
+                //return Ok(jsonData);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
 
-
-       
         //}
 
 

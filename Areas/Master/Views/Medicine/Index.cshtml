@@ -75,7 +75,7 @@
             </th>
         </tr>
     </thead>
-     <tfoot>
+     <!--<tfoot>
              <tr>
             <th>
                 @localizer["Id"]
@@ -103,18 +103,18 @@
             </th>
             <th>
                 @localizer["Selling Price"]
-            </th>
+            </th>-->
             @*            <th style="width:10%">
                     @localizer["Expiry Date"]
                 </th>*@
-            <th style="width:40%">
+            <!--<th style="width:40%">
                 @localizer["Manufacturer"]
             </th>
             <th style="width:10%">
                 @localizer["Actions"]
             </th>
         </tr>
-        </tfoot>
+        </tfoot>-->
     @*<tbody>
 
             @foreach (var medicine in Model.MedicineList)
@@ -207,7 +207,91 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-
+            $("#medicineTable").DataTable({
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "ajax": {
+                    "url": "Medicine/GetMedicineList",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columnDefs": [{
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false
+                }],
+                "columns": [
+                    { "data": "id", "name": "Id", "autoWidth": true },
+                    // For Student.Firstname
+                    { "data": "medicine_Id", "name": "MedicineId", "autoWidth": true },
+                    // For Student.Lastname
+                    { "data": "medicine_Name", "name": "MedicineName", "autoWidth": true },
+                    { "data": "generic_Name", "name": "Generic", "autoWidth": true },
+                    { "data": "category_Name", "name": "Category", "autoWidth": true },
+                    { "data": "shelf_Name", "name": "Shelf", "autoWidth": true },
+                    { "data": "strength_Name", "name": "Strength", "autoWidth": true },
+                    //{ "data": "buying_Price", "name": "Buying Price" },
+                    {
+                        "data": "buying_Price", "name": "Buying Price", "autoWidth": true,
+                        "render": function (data) {
+                            return parseFloat(data).toFixed(2);
+                        }
+                    },
+                    {
+                        "data": "selling_Price", "name": "Selling Price", "autoWidth": true,
+                        "render": function (data) {
+                            return parseFloat(data).toFixed(2);
+                        }
+                    },
+                    //{ "data": "selling_Price", "name": "Selling Price" },
+                    { "data": "supplier_Name", "name": "Menufacturer", "autoWidth": true },
+                    // For Student.CreatedDate
+                    //{
+                    //    "data": "createdDate", "name": "CreatedDate",
+                    //    "render": function (data) {
+                    //        var date = new Date(data);
+                    //        return date.toLocaleString();
+                    //    }
+                    //},
+                    //{
+                    //    'data': null,
+                    //    'render': function (data, type, row) {
+                    //        return '<button id="' + row.id + '" onclick="detailsClick(this)">Details</button>'
+                    //            + '<button id="' + row.id + '" onclick="editClick(this)">Edit</button>'
+                    //            + '<button id="' + row.id + '" onclick="deleteClick(this)">Delete</button>'
+                    //    }
+                    //}
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            //return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.id + "'); >Delete</a>";
+                            return "<div class='btn-group'><button type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Action</button>"
+                                + "<div class='dropdown-menu shadow animated--grow-in'><a href = '#' onclick=EditData('" + row.id + "'); class='dropdown-item'><i class='fas fa-pencil-alt'></i>Edit</a>"
+                        //        + "<form id='form_delete_'" + row.id + "'' asp-controller='medicine' method='post' asp-action='OnPostDelete' asp-route-id='" + row.id+"' onsubmit = 'return jQueryModalDelete(this)' class='d-inline' >"
+                        //        + "<a href='javascript: $('#form_delete_'" + row.id+"'').submit();' class='dropdown-item btn btn-danger'><i class='fas fa-trash-alt'></i> Delete</a>"
+                        //+"</form>"
+                                + "<a href='#' onclick = DeleteData('" + row.id + "'); class='dropdown-item'><i class='fas fa-trash-alt'></i>Delete</a>"
+                                //+ "<a href = '#' class='btn btn-danger' onclick = DeleteData('" + row.id + "');><i class='fas fa-trash-alt'></i> Delete</a>"
+                    +"</div>"
+                +"</div>"
+                        }
+                    }
+                ],
+                language: {
+                    processing: '<div class="spinner"></div>',
+                    zeroRecords: "No matching records found"
+                }
+                    //{ "data": "id", "name": "Id", "autoWidth": true },
+                    //{ "data": "firstName", "name": "First Name", "autoWidth": true },
+                    //{ "data": "lastName", "name": "Last Name", "autoWidth": true },
+                    //{ "data": "contact", "name": "Country", "autoWidth": true },
+                    //{ "data": "email", "name": "Email", "autoWidth": true },
+                    //{ "data": "dateOfBirth", "name": "Date Of Birth", "autoWidth": true },
+                    //{
+                    //    "render": function (data, row) { return "<a href='#' class='btn btn-danger' onclick=DeleteCustomer('" + row.id + "'); >Delete</a>"; }
+                    //},
+            });
             //$('#medicineTable').DataTable({
             //    "processing": true,
             //    "serverSide": true,
@@ -373,101 +457,101 @@
 
 
 
-            var datatableInstance = $('#medicineTable').DataTable({
-                processing: true,
-                serverSide: true,
-                searching: true,
-                ordering: true,
-                paging: true,
-                "aLengthMenu": [[5, 10, 15, 25, 50, 100, -1], [5, 10, 15, 25, 50, 100, "All"]],
-                "iDisplayLength": 10,
-                "ajax": {
-                    "url": "Medicine/GetProducts",
-                    "type": "POST",
-                    "datatype": "json"
-                },
-                    "columns": [
-                    // For Student.Id
-                    { "data": "id", "name": "Id" },
-                    // For Student.Firstname
-                    { "data": "medicine_Id", "name": "MedicineId" },
-                    // For Student.Lastname
-                    { "data": "medicine_Name", "name": "MedicineName" },
-                    { "data": "generic_Name", "name": "Generic" },
-                    { "data": "category_Name", "name": "Category" },
-                    { "data": "shelf_Name", "name": "Shelf" },
-                    { "data": "strength_Name", "name": "Strength" },
-                    //{ "data": "buying_Price", "name": "Buying Price" },
-                    {
-                        "data": "buying_Price", "name": "Buying Price",
-                        "render": function (data) {
-                            return parseFloat(data).toFixed(2);
-                        }
-                    },
-                    {
-                        "data": "selling_Price", "name": "Selling Price",
-                        "render": function (data) {
-                            return parseFloat(data).toFixed(2);
-                        }
-                    },
-                    //{ "data": "selling_Price", "name": "Selling Price" },
-                    { "data": "supplier_Name", "name": "Menufacturer" },
-                    // For Student.CreatedDate
-                    //{
-                    //    "data": "createdDate", "name": "CreatedDate",
-                    //    "render": function (data) {
-                    //        var date = new Date(data);
-                    //        return date.toLocaleString();
-                    //    }
-                    //},
-                    //{
-                    //    'data': null,
-                    //    'render': function (data, type, row) {
-                    //        return '<button id="' + row.id + '" onclick="detailsClick(this)">Details</button>'
-                    //            + '<button id="' + row.id + '" onclick="editClick(this)">Edit</button>'
-                    //            + '<button id="' + row.id + '" onclick="deleteClick(this)">Delete</button>'
-                    //    }
-                    //}
-                    {
-                        data: null,
-                        render: function (data, type, row) {
-                            //return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.id + "'); >Delete</a>";
-                            return "<div class='btn-group'><button type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Action</button>"
-                                + "<div class='dropdown-menu shadow animated--grow-in'><a href = '#' onclick=EditData('" + row.id + "'); class='dropdown-item'><i class='fas fa-pencil-alt'></i>Edit</a>"
-                        //        + "<form id='form_delete_'" + row.id + "'' asp-controller='medicine' method='post' asp-action='OnPostDelete' asp-route-id='" + row.id+"' onsubmit = 'return jQueryModalDelete(this)' class='d-inline' >"
-                        //        + "<a href='javascript: $('#form_delete_'" + row.id+"'').submit();' class='dropdown-item btn btn-danger'><i class='fas fa-trash-alt'></i> Delete</a>"
-                        //+"</form>"
-                                + "<a href='#' onclick = DeleteData('" + row.id + "'); class='dropdown-item'><i class='fas fa-trash-alt'></i>Delete</a>"
-                                //+ "<a href = '#' class='btn btn-danger' onclick = DeleteData('" + row.id + "');><i class='fas fa-trash-alt'></i> Delete</a>"
-                    +"</div>"
-                +"</div>"
-                        }
-                    }
-                ],
-                language: {
-                    processing: '<div class="spinner"></div>',
-                    zeroRecords: "No matching records found"
-                }
+    //        var datatableInstance = $('#medicineTable').DataTable({
+    //            processing: true,
+    //            serverSide: true,
+    //            searching: true,
+    //            ordering: true,
+    //            paging: true,
+    //            "aLengthMenu": [[5, 10, 15, 25, 50, 100, -1], [5, 10, 15, 25, 50, 100, "All"]],
+    //            "iDisplayLength": 10,
+    //            "ajax": {
+    //                "url": "Medicine/GetProducts",
+    //                "type": "POST",
+    //                "datatype": "json"
+    //            },
+    //                "columns": [
+    //                // For Student.Id
+    //                { "data": "id", "name": "Id" },
+    //                // For Student.Firstname
+    //                { "data": "medicine_Id", "name": "MedicineId" },
+    //                // For Student.Lastname
+    //                { "data": "medicine_Name", "name": "MedicineName" },
+    //                { "data": "generic_Name", "name": "Generic" },
+    //                { "data": "category_Name", "name": "Category" },
+    //                { "data": "shelf_Name", "name": "Shelf" },
+    //                { "data": "strength_Name", "name": "Strength" },
+    //                //{ "data": "buying_Price", "name": "Buying Price" },
+    //                {
+    //                    "data": "buying_Price", "name": "Buying Price",
+    //                    "render": function (data) {
+    //                        return parseFloat(data).toFixed(2);
+    //                    }
+    //                },
+    //                {
+    //                    "data": "selling_Price", "name": "Selling Price",
+    //                    "render": function (data) {
+    //                        return parseFloat(data).toFixed(2);
+    //                    }
+    //                },
+    //                //{ "data": "selling_Price", "name": "Selling Price" },
+    //                { "data": "supplier_Name", "name": "Menufacturer" },
+    //                // For Student.CreatedDate
+    //                //{
+    //                //    "data": "createdDate", "name": "CreatedDate",
+    //                //    "render": function (data) {
+    //                //        var date = new Date(data);
+    //                //        return date.toLocaleString();
+    //                //    }
+    //                //},
+    //                //{
+    //                //    'data': null,
+    //                //    'render': function (data, type, row) {
+    //                //        return '<button id="' + row.id + '" onclick="detailsClick(this)">Details</button>'
+    //                //            + '<button id="' + row.id + '" onclick="editClick(this)">Edit</button>'
+    //                //            + '<button id="' + row.id + '" onclick="deleteClick(this)">Delete</button>'
+    //                //    }
+    //                //}
+    //                {
+    //                    data: null,
+    //                    render: function (data, type, row) {
+    //                        //return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.id + "'); >Delete</a>";
+    //                        return "<div class='btn-group'><button type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Action</button>"
+    //                            + "<div class='dropdown-menu shadow animated--grow-in'><a href = '#' onclick=EditData('" + row.id + "'); class='dropdown-item'><i class='fas fa-pencil-alt'></i>Edit</a>"
+    //                    //        + "<form id='form_delete_'" + row.id + "'' asp-controller='medicine' method='post' asp-action='OnPostDelete' asp-route-id='" + row.id+"' onsubmit = 'return jQueryModalDelete(this)' class='d-inline' >"
+    //                    //        + "<a href='javascript: $('#form_delete_'" + row.id+"'').submit();' class='dropdown-item btn btn-danger'><i class='fas fa-trash-alt'></i> Delete</a>"
+    //                    //+"</form>"
+    //                            + "<a href='#' onclick = DeleteData('" + row.id + "'); class='dropdown-item'><i class='fas fa-trash-alt'></i>Delete</a>"
+    //                            //+ "<a href = '#' class='btn btn-danger' onclick = DeleteData('" + row.id + "');><i class='fas fa-trash-alt'></i> Delete</a>"
+    //                +"</div>"
+    //            +"</div>"
+    //                    }
+    //                }
+    //            ],
+    //            language: {
+    //                processing: '<div class="spinner"></div>',
+    //                zeroRecords: "No matching records found"
+    //            }
 
-            });
-            debugger
-            $('#medicineTable tfoot th').each(function () {
-        var title = $('#medicineTable thead th').eq($(this).index()).text();
-        $(this).html('<input type="text" placeholder="Search ' + title + '" />');
-    });
-    datatableInstance.columns().every(function(){
-        var datatableColumn = this;
+    //        });
+    //        debugger
+    //        $('#medicineTable tfoot th').each(function () {
+    //    var title = $('#medicineTable thead th').eq($(this).index()).text();
+    //    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+    //});
+    //datatableInstance.columns().every(function(){
+    //    var datatableColumn = this;
         
-        //$('input', this.footer()).on('keyup change clear', function () {
-        //       if (datatableColumn.search() !== this.value) {
-        //          datatableColumn.search(this.value).draw();
-        //              }
-        //         });
+    //    //$('input', this.footer()).on('keyup change clear', function () {
+    //    //       if (datatableColumn.search() !== this.value) {
+    //    //          datatableColumn.search(this.value).draw();
+    //    //              }
+    //    //         });
 
-        $(this.footer()).find('input').on('keyup change', function (){
-            datatableColumn.search(this.value).draw();
-        });
-    })
+    //    $(this.footer()).find('input').on('keyup change', function (){
+    //        datatableColumn.search(this.value).draw();
+    //    });
+    //})
        });
 
         function EditData(CustomerID) {
