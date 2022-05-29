@@ -89,12 +89,12 @@ namespace PhramacyApp.Areas.Master.Controllers
                     //int recordsFilteredCount = unitOfWork.Medicines.GetSearchValueCount(searchValue);
 
 
-                //    // Total Records Count
-                 recordsTotal = unitOfWork.Medicines.GetAllAsync().Result.Count;
+                // // Total Records Count
+                 recordsTotal = unitOfWork.Medicines.GetAllAsync().Result.Count; 
                 if (!string.IsNullOrEmpty(searchValue))
                 {
 
-                    medicineData = unitOfWork.Medicines.GetSearchValue(searchValue);
+                    medicineData = unitOfWork.Medicines.GetSearchValue(searchValue, sortColumn, sortColumnDirection);
                     //customerData = customerData.Where(m => m.FirstName.Contains(searchValue)
                     //                            || m.LastName.Contains(searchValue)
                     //                            || m.Contact.Contains(searchValue)

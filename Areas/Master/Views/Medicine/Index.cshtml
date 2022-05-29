@@ -224,28 +224,28 @@
                 "columns": [
                     { "data": "id", "name": "Id", "autoWidth": true },
                     // For Student.Firstname
-                    { "data": "medicine_Id", "name": "MedicineId", "autoWidth": true },
+                    { "data": "medicine_Id", "name": "Medicine_Id", "autoWidth": true },
                     // For Student.Lastname
-                    { "data": "medicine_Name", "name": "MedicineName", "autoWidth": true },
-                    { "data": "generic_Name", "name": "Generic", "autoWidth": true },
-                    { "data": "category_Name", "name": "Category", "autoWidth": true },
-                    { "data": "shelf_Name", "name": "Shelf", "autoWidth": true },
-                    { "data": "strength_Name", "name": "Strength", "autoWidth": true },
+                    { "data": "medicine_Name", "name": "Medicine_Name", "autoWidth": true },
+                    { "data": "generic_Name", "name": "Generic_Name", "autoWidth": true },
+                    { "data": "category_Name", "name": "Category_Name", "autoWidth": true },
+                    { "data": "shelf_Name", "name": "Shelf_Name", "autoWidth": true },
+                    { "data": "strength_Name", "name": "Strength_Name", "autoWidth": true },
                     //{ "data": "buying_Price", "name": "Buying Price" },
                     {
-                        "data": "buying_Price", "name": "Buying Price", "autoWidth": true,
+                        "data": "buying_Price", "name": "Buying_Price", "autoWidth": true,
                         "render": function (data) {
                             return parseFloat(data).toFixed(2);
                         }
                     },
                     {
-                        "data": "selling_Price", "name": "Selling Price", "autoWidth": true,
+                        "data": "selling_Price", "name": "Selling_Price", "autoWidth": true,
                         "render": function (data) {
                             return parseFloat(data).toFixed(2);
                         }
                     },
                     //{ "data": "selling_Price", "name": "Selling Price" },
-                    { "data": "supplier_Name", "name": "Menufacturer", "autoWidth": true },
+                    { "data": "supplier_Name", "name": "Supplier_Name", "autoWidth": true },
                     // For Student.CreatedDate
                     //{
                     //    "data": "createdDate", "name": "CreatedDate",
@@ -474,7 +474,7 @@
        });
 
         function EditData(CustomerID) {
-            jQueryModalGet('/master/medicine/OnGetCreateOrEdit?id=' + CustomerID+'', 'Edit Menu')
+            jQueryModalGet('/master/medicine/OnGetCreateOrEdit?id=' + CustomerID+'', 'Edit Medicine')
             //if (confirm("Are you sure you want to delete ...?")) {
             //    Delete(CustomerID);
             //} else {

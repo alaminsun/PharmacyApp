@@ -61,7 +61,7 @@
                         Action
                     </button>
                     <div class="dropdown-menu shadow animated--grow-in">
-                        <a onclick="jQueryModalGet('/master/supplier/OnGetCreateOrEdit?id=@supplier.Id', 'Edit Customer')" class="dropdown-item">
+                        <a onclick="jQueryModalGet('/master/supplier/OnGetCreateOrEdit?id=@supplier.Id', 'Edit Supplier')" class="dropdown-item">
                             <i class="fas fa-pencil-alt"></i> @localizer["Edit"]
                         </a>
                         <form id="form_delete_@supplier.Id" asp-controller="supplier" method="post" asp-action="OnPostDelete" asp-route-id="@supplier.Id" onsubmit="return jQueryModalDelete(this)" class="d-inline">
