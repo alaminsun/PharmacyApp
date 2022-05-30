@@ -386,7 +386,7 @@ namespace PhramacyApp.Repository
             var query = " Select a.Id,a.Medicine_Id,a.Medicine_Name,a.Generic_Name,a.Supplier_Id,a.Supplier_Name,a.Category_Id,c.Category_Name,a.Strength_Code," +
                  " a.Strength_Name,a.Shelf_Id,s.Shelf_Name,a.Buying_Price,a.Selling_Price from MedicineInfo a " +
                  " left join  CategoryInfo c on a.Category_Id = c.Id " +
-                 " left join ShelfInfo s on a.Shelf_Id = s.Id Where 1=1";
+                 " left join ShelfInfo s on a.Shelf_Id = s.Id Where 1=1 ";
 
             query = query + " AND a.Medicine_Name like '" + searchValue + "%'  OR a.Supplier_Name LIKE '%" + searchValue + "%' OR a.Generic_Name LIKE '%" + searchValue + "%'";
 
@@ -394,10 +394,10 @@ namespace PhramacyApp.Repository
             //{
             //    query = query + " Order By " + sortColumn + " " + sortColumnDirection + "";
             //}
-            if (sortColumn != "Id")
-            {
-                query = query + " Order By " + sortColumn + " " + sortColumnDirection + "";
-            }
+            //if (sortColumn != "Id")
+            //{
+            //    query = query + " Order By " + sortColumn + " " + sortColumnDirection + "";
+            //}
 
             using (var connection = new SqlConnection(configuration.GetConnectionString("ApplicationConnection")))
             {
