@@ -116,7 +116,7 @@ namespace PhramacyApp.Areas.Master.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -125,16 +125,16 @@ namespace PhramacyApp.Areas.Master.Controllers
 
 
 
-        public async Task<IActionResult> LoadAll(int Currentpage)
-        {
-            //var medicineList = await unitOfWork.Medicines.GetAllAsync();
-            var medicineList = await unitOfWork.Medicines.GetMedicine(1);
-            if (medicineList != null)
-            {
-                return PartialView("Index", medicineList);
-            }
-            return null;
-        }
+        //public async Task<IActionResult> LoadAll(int Currentpage)
+        //{
+        //    //var medicineList = await unitOfWork.Medicines.GetAllAsync();
+        //    var medicineList = await unitOfWork.Medicines.GetMedicine(1);
+        //    if (medicineList != null)
+        //    {
+        //        return PartialView("Index", medicineList);
+        //    }
+        //    return null;
+        //}
 
         //public async Task<JsonResult> SupplierList()
         //{

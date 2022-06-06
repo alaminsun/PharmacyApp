@@ -207,109 +207,109 @@ namespace PhramacyApp.Repository
 
 
 
-        public async Task<Medicine> GetMedicine(int Currentpage)
-        {
-            using (var connection = new SqlConnection(configuration.GetConnectionString("ApplicationConnection")))
-            {
-                //connection.Open();
-                //var result = await connection.QueryAsync<MedicineModel>(query);
-                //return result.ToList();
-                int maxRows = 10;
-                SqlCommand com =  new SqlCommand("Sp_Medicine_Paging", connection);
-                com.CommandType =  CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@Pageindex", Currentpage);
-                com.Parameters.AddWithValue("@Pagesize", maxRows);
+        //public async Task<Medicine> GetMedicine(int Currentpage)
+        //{
+        //    using (var connection = new SqlConnection(configuration.GetConnectionString("ApplicationConnection")))
+        //    {
+        //        //connection.Open();
+        //        //var result = await connection.QueryAsync<MedicineModel>(query);
+        //        //return result.ToList();
+        //        int maxRows = 10;
+        //        SqlCommand com =  new SqlCommand("Sp_Medicine_Paging", connection);
+        //        com.CommandType =  CommandType.StoredProcedure;
+        //        com.Parameters.AddWithValue("@Pageindex", Currentpage);
+        //        com.Parameters.AddWithValue("@Pagesize", maxRows);
 
-                SqlDataAdapter da = new SqlDataAdapter(com);
-                DataSet ds = new DataSet();
-                da.Fill(ds);
+        //        SqlDataAdapter da = new SqlDataAdapter(com);
+        //        DataSet ds = new DataSet();
+        //        da.Fill(ds);
 
-                connection.Open();
-                //SqlCommand cmd = new SqlCommand(qry, connection);
-                SqlDataReader reader = com.ExecuteReader();
-                List<MedicineModel> items = new List<MedicineModel>();
+        //        connection.Open();
+        //        //SqlCommand cmd = new SqlCommand(qry, connection);
+        //        SqlDataReader reader = com.ExecuteReader();
+        //        List<MedicineModel> items = new List<MedicineModel>();
 
-                Medicine medicineModel = new Medicine();
-                //List<MedicineModel> list = new List<MedicineModel>(); 
-                //foreach (DataRow dr in ds.Tables[0].Rows)
-                //{
-                //    list.Add(new MedicineModel
-                //    {
-                //        Id = Convert.ToInt32(dr["Id"]),
-                //        Medicine_Id = dr["Medicine_Id"].ToString(),
-                //        Medicine_Name = dr["Medicine_Name"].ToString(),
-                //        Strength_Code = dr["Strength_Code"].ToString(),
-                //        Strength_Name = dr["Strength_Name"].ToString(),
-                //        Category_Id = dr["Category_Id"].ToString(),
-                //        Category_Name = dr["Category_Name"].ToString(),
-                //        Shelf_Id = dr["Shelf_Id"].ToString(),
-                //        Shelf_Name = dr["Shelf_Name"].ToString(),
-                //        Generic_Name = dr["Generic_Name"].ToString(),
-                //        Buying_Price = Convert.ToDecimal(dr["Buying_Price"]),
-                //        //Medicine_Id = dr["Id"].ToString(),
-                //        Selling_Price = Convert.ToDecimal(dr["Selling_Price"]),
-                //        Supplier_Id = dr["Supplier_Id"].ToString(),
-                //        Supplier_Name = dr["Supplier_Name"].ToString()
-                //        //Medicine_Id = dr["Id"].ToString(),
-                //        //Medicine_Id = dr["Id"].ToString(),
-                //        //Medicine_Id = dr["Id"].ToString(),
-                //        //Medicine_Id = dr["Id"].ToString(),
-                //        //Medicine_Id = dr["Id"].ToString(),
-                //        //Medicine_Id = dr["Id"].ToString(),
-                //        //Medicine_Id = dr["Id"].ToString(),
-                //        //Medicine_Id = dr["Id"].ToString(),
-                //        //Medicine_Id = dr["Id"].ToString(),
-                //        //Medicine_Id = dr["Id"].ToString(),
+        //        Medicine medicineModel = new Medicine();
+        //        //List<MedicineModel> list = new List<MedicineModel>(); 
+        //        //foreach (DataRow dr in ds.Tables[0].Rows)
+        //        //{
+        //        //    list.Add(new MedicineModel
+        //        //    {
+        //        //        Id = Convert.ToInt32(dr["Id"]),
+        //        //        Medicine_Id = dr["Medicine_Id"].ToString(),
+        //        //        Medicine_Name = dr["Medicine_Name"].ToString(),
+        //        //        Strength_Code = dr["Strength_Code"].ToString(),
+        //        //        Strength_Name = dr["Strength_Name"].ToString(),
+        //        //        Category_Id = dr["Category_Id"].ToString(),
+        //        //        Category_Name = dr["Category_Name"].ToString(),
+        //        //        Shelf_Id = dr["Shelf_Id"].ToString(),
+        //        //        Shelf_Name = dr["Shelf_Name"].ToString(),
+        //        //        Generic_Name = dr["Generic_Name"].ToString(),
+        //        //        Buying_Price = Convert.ToDecimal(dr["Buying_Price"]),
+        //        //        //Medicine_Id = dr["Id"].ToString(),
+        //        //        Selling_Price = Convert.ToDecimal(dr["Selling_Price"]),
+        //        //        Supplier_Id = dr["Supplier_Id"].ToString(),
+        //        //        Supplier_Name = dr["Supplier_Name"].ToString()
+        //        //        //Medicine_Id = dr["Id"].ToString(),
+        //        //        //Medicine_Id = dr["Id"].ToString(),
+        //        //        //Medicine_Id = dr["Id"].ToString(),
+        //        //        //Medicine_Id = dr["Id"].ToString(),
+        //        //        //Medicine_Id = dr["Id"].ToString(),
+        //        //        //Medicine_Id = dr["Id"].ToString(),
+        //        //        //Medicine_Id = dr["Id"].ToString(),
+        //        //        //Medicine_Id = dr["Id"].ToString(),
+        //        //        //Medicine_Id = dr["Id"].ToString(),
+        //        //        //Medicine_Id = dr["Id"].ToString(),
 
-                //    });
-                //}
+        //        //    });
+        //        //}
 
-                while (reader.Read())
-                {
-                    MedicineModel model = new MedicineModel();
-                    model.Id = Convert.ToInt32(reader["Id"]);
-                    model.Medicine_Id = reader["Medicine_Id"].ToString();
-                    model.Medicine_Name = reader["Medicine_Name"].ToString();
-                    model.Strength_Code = reader["Strength_Code"].ToString();
-                    model.Strength_Name = reader["Strength_Name"].ToString();
-                    model.Category_Id = reader["Category_Id"].ToString();
-                    model.Category_Name = reader["Category_Name"].ToString();
-                    model.Shelf_Id = reader["Shelf_Id"].ToString();
-                    model.Shelf_Name = reader["Shelf_Name"].ToString();
-                    model.Generic_Name = reader["Generic_Name"].ToString();
-                    //model.Buying_Price = Convert.ToDecimal(reader["Buying_Price"]);
-                    if (!reader.IsDBNull(10))
-                    {
-                        model.Buying_Price = Convert.ToDecimal(reader["Buying_Price"]);
+        //        while (reader.Read())
+        //        {
+        //            MedicineModel model = new MedicineModel();
+        //            model.Id = Convert.ToInt32(reader["Id"]);
+        //            model.Medicine_Id = reader["Medicine_Id"].ToString();
+        //            model.Medicine_Name = reader["Medicine_Name"].ToString();
+        //            model.Strength_Code = reader["Strength_Code"].ToString();
+        //            model.Strength_Name = reader["Strength_Name"].ToString();
+        //            model.Category_Id = reader["Category_Id"].ToString();
+        //            model.Category_Name = reader["Category_Name"].ToString();
+        //            model.Shelf_Id = reader["Shelf_Id"].ToString();
+        //            model.Shelf_Name = reader["Shelf_Name"].ToString();
+        //            model.Generic_Name = reader["Generic_Name"].ToString();
+        //            //model.Buying_Price = Convert.ToDecimal(reader["Buying_Price"]);
+        //            if (!reader.IsDBNull(10))
+        //            {
+        //                model.Buying_Price = Convert.ToDecimal(reader["Buying_Price"]);
 
-                    }
-                    else
-                    {
-                        model.Buying_Price = 0;
-                    }
-                    if (!reader.IsDBNull(11))
-                    {
-                        model.Selling_Price = Convert.ToDecimal(reader["Selling_Price"]);
+        //            }
+        //            else
+        //            {
+        //                model.Buying_Price = 0;
+        //            }
+        //            if (!reader.IsDBNull(11))
+        //            {
+        //                model.Selling_Price = Convert.ToDecimal(reader["Selling_Price"]);
 
-                    }
-                    else
-                    {
-                        model.Selling_Price = 0;
-                    }
-                    //Medicine_Id = dr["Id"].ToString(),
-                   // model.Selling_Price = Convert.ToDecimal(reader["Selling_Price"]);
-                    model.Supplier_Id = reader["Supplier_Id"].ToString();
-                    model.Supplier_Name = reader["Supplier_Name"].ToString();
+        //            }
+        //            else
+        //            {
+        //                model.Selling_Price = 0;
+        //            }
+        //            //Medicine_Id = dr["Id"].ToString(),
+        //           // model.Selling_Price = Convert.ToDecimal(reader["Selling_Price"]);
+        //            model.Supplier_Id = reader["Supplier_Id"].ToString();
+        //            model.Supplier_Name = reader["Supplier_Name"].ToString();
 
-                        items.Add(model);
-                }
+        //                items.Add(model);
+        //        }
 
-                medicineModel.MedicineList = items;
-                medicineModel.PageCount = Convert.ToInt32(ds.Tables[1].Rows[0][0]) / maxRows;
-                medicineModel.CurrentIndex = Currentpage;
-                return  medicineModel;
-            }
-        }
+        //        medicineModel.MedicineList = items;
+        //        medicineModel.PageCount = Convert.ToInt32(ds.Tables[1].Rows[0][0]) / maxRows;
+        //        medicineModel.CurrentIndex = Currentpage;
+        //        return  medicineModel;
+        //    }
+        //}
             
 
         public async Task<MedicineModel> GetByIdAsync(int id)
