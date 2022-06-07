@@ -14,7 +14,7 @@ namespace PhramacyApp.Models.Contexts
         //EntityEntry Entry(object entity);
         public IDbConnection Connection { get; }  
         //DatabaseFacade Database { get; }
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        //Task<int> SaveChangesAsync(CancellationToken cancellationToken);
         //Task GetMenuItemsAsync(ClaimsPrincipal user);
     }
 }

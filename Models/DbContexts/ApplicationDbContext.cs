@@ -22,8 +22,8 @@ namespace PhramacyApp.DbContexts
 
         private readonly IConfiguration _configuration;
         private readonly string _connectionString;
-        private readonly IDateTimeService _dateTime;
-        private readonly IAuthenticatedUserService _authenticatedUser;
+        //private readonly IDateTimeService _dateTime;
+        //private readonly IAuthenticatedUserService _authenticatedUser;
 
         private readonly IDbConnection connection;
         public ApplicationDbContext(IConfiguration configuration,DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -38,32 +38,32 @@ namespace PhramacyApp.DbContexts
 
         public IDbConnection Connection => new SqlConnection(_connectionString);
 
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
-        {
-            foreach (var entry in ChangeTracker.Entries<AuditableEntity>().ToList())
-            {
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.Entity.CreatedOn = _dateTime.NowUtc;
-                        entry.Entity.CreatedBy = _authenticatedUser.UserId;
-                        break;
+        //public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        //{
+        //    foreach (var entry in ChangeTracker.Entries<AuditableEntity>().ToList())
+        //    {
+        //        switch (entry.State)
+        //        {
+        //            case EntityState.Added:
+        //                entry.Entity.CreatedOn = _dateTime.NowUtc;
+        //                entry.Entity.CreatedBy = _authenticatedUser.UserId;
+        //                break;
 
-                    case EntityState.Modified:
-                        entry.Entity.LastModifiedOn = _dateTime.NowUtc;
-                        entry.Entity.LastModifiedBy = _authenticatedUser.UserId;
-                        break;
-                }
-            }
-            if (_authenticatedUser.UserId == null)
-            {
-                return await base.SaveChangesAsync(cancellationToken);
-            }
-            else
-            {
-                return await base.SaveChangesAsync(_authenticatedUser.UserId);
-            }
-        }
+        //            case EntityState.Modified:
+        //                entry.Entity.LastModifiedOn = _dateTime.NowUtc;
+        //                entry.Entity.LastModifiedBy = _authenticatedUser.UserId;
+        //                break;
+        //        }
+        //    }
+        //    if (_authenticatedUser.UserId == null)
+        //    {
+        //        return await base.SaveChangesAsync(cancellationToken);
+        //    }
+        //    else
+        //    {
+        //        return await base.SaveChangesAsync(_authenticatedUser.UserId);
+        //    }
+        //}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
