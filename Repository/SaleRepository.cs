@@ -310,10 +310,12 @@ namespace PhramacyApp.Repository
 
         public async Task<SaleModel> GetMedicineId(string medicineId)
         {
-           
+
             //var query = "SELECT Id, Medicine_Id, Medicine_Name, Selling_Price FROM MedicineInfo Where Medicine_Id = '"+ medicineId + "'";
-            var query = " SELECT distinct m.Id, m.Medicine_Id, m.Medicine_Name, pd.Stock_Qty, m.Selling_Price FROM MedicineInfo m, Purchase_Detail_tbl pd "+
-                        " Where pd.Medicine_Id = m.Medicine_Id AND m.Medicine_Id = '"+ medicineId + "'";
+            //var query = " SELECT distinct m.Id, m.Medicine_Id, m.Medicine_Name, pd.Stock_Qty, m.Selling_Price FROM MedicineInfo m, Purchase_Detail_tbl pd "+
+            // " Where pd.Medicine_Id = m.Medicine_Id AND m.Medicine_Id = '"+ medicineId + "'";
+            var query = " SELECT distinct m.Id, m.Medicine_Id, m.Medicine_Name, pd.Stock_Qty, m.Selling_Price FROM MedicineInfo m left join Purchase_Detail_tbl pd on pd.Medicine_Id = m.Medicine_Id " +
+                        " Where m.Medicine_Id = '" + medicineId + "'";
             using (var connection = new SqlConnection(configuration.GetConnectionString("ApplicationConnection")))
             {
                 connection.Open();
