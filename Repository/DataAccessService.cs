@@ -24,7 +24,7 @@ namespace PharmacyApp.Repository
             var userId = GetUserId(ctx);
             string roleName = await GetUserRoleNameAsync(ctx);
             string MHQry = "";
-            if (roleName == "superadmin")
+            if (roleName == "SuperAdmin")
             {
                 MHQry = " SELECT DISTINCT MH.Mh_Id, Mh.Mh_Name, Mh.Mh_Seq, MH.Mh_Id FROM [Identity].UserRoles SRC,[Identity].Roles SR, Menu_Conf SMC, Menu_Head MH "+
                         " WHERE SRC.RoleId = SR.Id AND SMC.Role_Id = SRC.RoleId  And Mh.Mh_Id = SMC.Mh_Id  ORDER BY Mh.Mh_Id ASC ";
@@ -52,7 +52,7 @@ namespace PharmacyApp.Repository
             //var userId = GetUserId(ctx);
             string roleName = await GetUserRoleNameAsync(ctx);
             string SMQry = "";
-            if (roleName == "superadmin")
+            if (roleName == "SuperAdmin")
             {
                 
                 SMQry = "SELECT DISTINCT SSM.SM_NAME,SSM.SM_ID,SSM.SM_SEQ,SSM.SM_CSS_CLASS,SSM.URL ,SSM.Mh_Id "+
@@ -60,7 +60,8 @@ namespace PharmacyApp.Repository
             }
             else
             {
-                var roleIds = GetUserRoleIdsAsync(ctx);
+                var userId = GetUserId(ctx);
+                var roleIds = GetUserRoleIdsAsync(userId);
                 SMQry = " SELECT DISTINCT SSM.SM_NAME,SSM.SM_ID,SSM.SM_SEQ,SSM.SM_CSS_CLASS,SSM.URL,SMC.Mh_Id FROM[Identity].UserRoles SRC,[Identity].Roles SR, Menu_Conf SMC,Sub_Menu SSM " +
            " WHERE SRC.RoleId = SR.Id AND SMC.Role_Id = SRC.RoleId AND SSM.SM_ID = SMC.SM_ID AND SMC.MH_ID= "+ id + " AND SMC.Role_Id= '" + roleIds + "' ORDER BY SSM.SM_SEQ ASC";
             }
@@ -80,7 +81,7 @@ namespace PharmacyApp.Repository
  
             string roleName = await GetUserRoleNameAsync(ctx);
             string MHQry = "";
-            if (roleName == "superadmin")
+            if (roleName == "SuperAdmin")
             {
                 MHQry = "SELECT DISTINCT MH.Mh_Id, Mh.Mh_Name, Mh.Mh_Seq, MH.Mh_Id, MH.Area FROM  Menu_Head MH";
             }
@@ -100,15 +101,17 @@ namespace PharmacyApp.Repository
 
         public async Task<IList<MenuViewModel>> GetMenuListAsync(IList<MenuViewModel> MenuList, ClaimsPrincipal ctx)
         {
+            
             string roleName = await GetUserRoleNameAsync(ctx);
             string MHQry = ""; 
-            if (roleName == "superadmin")
+            if (roleName == "SuperAdmin")
             {
                  MHQry = "SELECT DISTINCT MH.Mh_Id, Mh.Mh_Name, Mh.Mh_Seq, MH.Mh_Id, MH.Area FROM  Menu_Head MH";
             }
             else
             {
-                var roleIds = GetUserRoleIdsAsync(ctx);
+                var userId = GetUserId(ctx);
+                string roleIds =  GetUserRoleIdsAsync(userId);
                 MHQry = " SELECT DISTINCT MH.Mh_Id, Mh.Mh_Name, Mh.Mh_Seq, MH.Mh_Id, MH.Area FROM [Identity].UserRoles SRC,[Identity].Roles SR, Menu_Conf SMC, Menu_Head MH " +
                             " WHERE SRC.RoleId = SR.Id AND SMC.Role_Id = SRC.RoleId  And Mh.Mh_Id = SMC.Mh_Id AND SMC.Role_Id = '"+ roleIds + "'  ORDER BY Mh.Mh_Id ASC ";
             }
@@ -147,21 +150,23 @@ namespace PharmacyApp.Repository
         }
 
 
-        private async Task<string> GetUserRoleIdsAsync(ClaimsPrincipal ctx)
+        public string GetUserRoleIdsAsync(string userId)
         {
-            var userId = GetUserId(ctx);
-            var query = "SELECT distinct RoleId  FROM [Identity].UserRoles WHERE UserId = '" + userId+"'";
+            //var userId = GetUserId(ctx);
+            //var query ="SELECT distinct U.UserName FROM[Identity].UserRoles UR, [Identity].Users U WHERE Ur.UserId = u.Id AND UserId = '"+ userId + "'";
+            var query = "SELECT distinct UR.RoleId FROM[Identity].UserRoles UR, [Identity].Users U,[Identity].Roles R WHERE Ur.UserId = u.Id And ur.RoleId = r.Id AND UserId = '" + userId + "'";
             using (var connection = new SqlConnection(configuration.GetConnectionString("ApplicationConnection")))
             {
                 connection.Open();
-                var result = await connection.QuerySingleOrDefaultAsync<string>(query, new { Id = userId });
+                var result =  connection.QuerySingleOrDefault<string>(query, new { Id = userId });
                 return result;
             }
         }
         private async Task<string> GetUserRoleNameAsync(ClaimsPrincipal ctx)
         {
             var userId = GetUserId(ctx);
-            var query ="SELECT distinct U.UserName FROM[Identity].UserRoles UR, [Identity].Users U WHERE Ur.UserId = u.Id AND UserId = '"+ userId + "'";
+            //var query ="SELECT distinct U.UserName FROM[Identity].UserRoles UR, [Identity].Users U WHERE Ur.UserId = u.Id AND UserId = '"+ userId + "'";
+            var query = "SELECT distinct R.Name FROM[Identity].UserRoles UR, [Identity].Users U,[Identity].Roles R WHERE Ur.UserId = u.Id And ur.RoleId = r.Id AND UserId = '" + userId + "'";
             using (var connection = new SqlConnection(configuration.GetConnectionString("ApplicationConnection")))
             {
                 connection.Open();

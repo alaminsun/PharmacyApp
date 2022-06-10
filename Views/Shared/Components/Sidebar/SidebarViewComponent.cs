@@ -22,7 +22,7 @@ namespace PhramacyApp.Views.Shared.Components.Sidebar
             _dataAccessService = dataAccessService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+       public async Task<IViewComponentResult> InvokeAsync()
        {
             //var items = await _dataAccessService.GetMenuHeadsAsync(HttpContext.User);
             //var item1 = await _dataAccessService.GetMenuHeadsAsync(HttpContext.User);
