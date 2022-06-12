@@ -402,7 +402,7 @@ namespace PhramacyApp.Repository
             using (var connection = new SqlConnection(configuration.GetConnectionString("ApplicationConnection")))
             {
                 connection.Open();
-                var result = connection.Query<MedicineModel>(query,commandTimeout:80);
+                var result = connection.Query<MedicineModel>(query,commandTimeout:20);
                 return result.ToList();
             }
         }
@@ -460,7 +460,7 @@ namespace PhramacyApp.Repository
             using (var connection = new SqlConnection(configuration.GetConnectionString("ApplicationConnection")))
             {
                 connection.Open();
-                var result = connection.Query<MedicineModel>(query,commandTimeout:30);
+                var result = connection.Query<MedicineModel>(query,commandTimeout:10);
                 return result.ToList();
             }
         }
