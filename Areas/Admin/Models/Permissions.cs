@@ -75,5 +75,22 @@ namespace PhramacyApp.Areas.Admin.Models
             public const string Edit = "Permissions.Menus.Edit";
             public const string Delete = "Permissions.Menus.Delete";
         }
+
+        public static class Purchase
+        {
+            public const string View = "Permissions.Purchase.View";
+            public const string Create = "Permissions.Purchase.Create";
+            public const string Edit = "Permissions.Purchase.Edit";
+            public const string Delete = "Permissions.Purchase.Delete";
+        }
+
+        public static class Sale
+        {
+            public const string View = "Permissions.Sale.View";
+            public const string Create = "Permissions.Sale.Create";
+            public const string Edit = "Permissions.Sale.Edit";
+            public const string Delete = "Permissions.Sale.Delete";
+        }
+
     }
 }
