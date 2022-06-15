@@ -33,6 +33,9 @@ namespace PhramacyApp.Areas.Admin.Controllers
             allPermissions.GetPermissions(typeof(Permissions.Categories), roleId);
             allPermissions.GetPermissions(typeof(Permissions.Users), roleId);
             allPermissions.GetPermissions(typeof(Permissions.Menus), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.Medicines), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.Purchase), roleId);
+            allPermissions.GetPermissions(typeof(Permissions.Sale), roleId);
             var role = await _roleManager.FindByIdAsync(roleId);
             model.RoleId = roleId;
             var claims = await _roleManager.GetClaimsAsync(role);
