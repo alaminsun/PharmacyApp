@@ -1,19 +1,13 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using static Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal.ExternalLoginModel;
 using Microsoft.AspNetCore.Mvc;
 using AspNetCoreHero.EntityFrameworkCore.AuditTrail;
-
-using PhramacyApp.Interfaces.Shared;
 using PhramacyApp.Models.Contexts;
-using System.Threading.Tasks;
-using System.Threading;
-using AspNetCoreHero.Abstractions.Domain;
+
 
 namespace PhramacyApp.DbContexts
 {
