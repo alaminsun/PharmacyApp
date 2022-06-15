@@ -32,7 +32,9 @@ namespace PhramacyApp.Areas.Identity.Seeds
             await roleManager.AddPermissionClaim(adminRole, "Medicines");
             await roleManager.AddPermissionClaim(adminRole, "Customers");
             await roleManager.AddPermissionClaim(adminRole, "Suppliers");
-            
+            await roleManager.AddPermissionClaim(adminRole, "Sale");
+            await roleManager.AddPermissionClaim(adminRole, "Purchase");
+
         }
 
         public static async Task SeedAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
